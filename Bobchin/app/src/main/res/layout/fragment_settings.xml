@@ -12,6 +12,7 @@
             android:layout_height="match_parent"
             android:text="settings"
             android:textSize="100dp"
+            android:textColor="#000000"
             android:fontFamily="@font/font"/>
 
 </FrameLayout>

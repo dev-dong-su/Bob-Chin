@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "27975566785",
+    "firebase_url": "https://bobchin-4d5b0.firebaseio.com",
+    "project_id": "bobchin-4d5b0",
+    "storage_bucket": "bobchin-4d5b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27975566785:android:8fe05919cf35fd284a9b40",
+        "android_client_info": {
+          "package_name": "com.example.bobchin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27975566785-knr3dib4pkpm8ibhlcm7p77au30qssjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlLN9Z-i6X9V6-aKVQW9s47b649WvYmug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27975566785-knr3dib4pkpm8ibhlcm7p77au30qssjm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

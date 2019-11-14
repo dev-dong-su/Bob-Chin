@@ -8,7 +8,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="631dp"
-            app:srcCompat="@drawable/Logo" />
+            app:srcCompat="@drawable/logo" />
 
     <Button
             android:id="@+id/button"

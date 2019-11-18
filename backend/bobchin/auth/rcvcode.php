@@ -1,5 +1,6 @@
 <?php
 include_once('settings.php');
+$_datetime = date("Y-m-d H:i:s", time());
 
 if (isset($_POST['authcode'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_POST['authcode']);
@@ -20,7 +21,7 @@ if (isset($_POST['authcode'])) {
       	$returnJSON['email']=$email;
 		$returnJSON['name']=$name;
 		$returnJSON['accesstoken']=$token['access_token'];
-		$query = "UPDATE user SET userid='$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]' WHERE email='$email";
+		$query = "UPDATE user SET userid='$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email";
     	mysqli_query($con, $query);
     }
     else{
@@ -28,7 +29,7 @@ if (isset($_POST['authcode'])) {
         $returnJSON['email']=$email;
 		$returnJSON['name']=$name;
 		$returnJSON['accesstoken']=$token['access_token'];
-		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','','','$token[access_token]')";
+		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','','','$token[access_token]','$_datetime')";
     	mysqli_query($con, $query);
 	}
 	echo json_encode($returnJSON);

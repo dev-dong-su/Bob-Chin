@@ -31,7 +31,7 @@ if(isset($_GET['token'])){
     $last_renew = new DateTime($row['last_renew']);
     if($datetime->getTimeStamp()-$last_renew->getTimeStamp()>=3500) $expired=true;
 }
-if(isset($_POST['token'])){
+else if(isset($_POST['token'])){
     $query = "SELECT refreshtoken,last_accesstoken,last_renew FROM user WHERE accesstoken='$_POST[token]'";
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_array($result);

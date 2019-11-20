@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="15dp"
+        app:cardBackgroundColor="#FFFFFF"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ImageView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/bread"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:scaleType="fitXY"
+                />
+
+        <RelativeLayout
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+
+            <TextView
+                    android:id="@+id/meeting_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="뜨뜻한 국밥 먹을사람"
+                    android:textSize="25dp"
+                    android:gravity="center_vertical"/>
+
+            <ImageView
+                    android:id="@+id/map_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_map"
+                    android:layout_below="@id/meeting_title"
+                    android:layout_alignBottom="@id/address"/>
+
+            <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:paddingLeft="10dp"
+                    android:text="서울특별시 상도로369 숭실대학교 스페이스엔 지하1층"
+                    android:layout_toRightOf="@id/map_image"
+                    android:layout_below="@id/meeting_title"
+                    android:gravity="center_vertical"/>
+
+            <ImageView
+                    android:id="@+id/clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_time"
+                    android:layout_below="@id/map_image"
+                    android:layout_marginTop="5dp" />
+
+            <TextView
+                    android:id="@+id/meet_time"
+                    android:paddingLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/address"
+                    android:layout_toRightOf="@id/clock"
+                    android:layout_marginTop="5dp"
+                    android:text="15:30~"
+                    android:textSize="18dp"/>
+
+            <ImageView
+                    android:id="@+id/person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person"
+                    android:layout_toRightOf="@id/meet_time"
+                    android:layout_below="@id/address"
+                    android:layout_alignBottom="@id/clock"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"/>
+
+            <TextView
+                    android:id="@+id/meet_person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:layout_toRightOf="@id/person"
+                    android:text="2/4"
+                    android:textSize="18dp"
+                    android:layout_below="@id/address"
+                    android:layout_marginTop="5dp"/>
+
+            <TextView
+                    android:id="@+id/age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="#20~25세만"
+                    android:paddingLeft="10dp"
+                    android:layout_below="@id/meet_time"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

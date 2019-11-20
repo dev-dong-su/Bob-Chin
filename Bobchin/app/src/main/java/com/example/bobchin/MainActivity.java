@@ -7,47 +7,34 @@ import android.view.Menu;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bobchin.Adapter.TabPagerAdapter;
-import com.example.bobchin.Font.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class MainActivity extends BaseActivity {
+
+public class MainActivity extends AppCompatActivity {
+
     private Context mContext;
-
-
     private TabLayout mTabLayout;
-
-
     private ViewPager mViewPager;
-
     private TabPagerAdapter mContentPagerAdapter;
 
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
         mContext = getApplicationContext();
-
         mTabLayout = (TabLayout) findViewById(R.id.layout_tab);
-
         mTabLayout.addTab(mTabLayout.newTab().setText("게시판").setIcon(R.drawable.ic_home_black_24dp));
-
         mTabLayout.addTab(mTabLayout.newTab().setText("내 모임").setIcon(R.drawable.ic_chat_black_24dp));
-
         mTabLayout.addTab(mTabLayout.newTab().setText("내 프로필").setIcon(R.drawable.ic_person_black_24dp));
-
         mViewPager = (ViewPager) findViewById(R.id.pager_content);
-
         mContentPagerAdapter = new TabPagerAdapter(
                 getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(mContentPagerAdapter);
@@ -67,6 +54,7 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
     }
 
     @Override

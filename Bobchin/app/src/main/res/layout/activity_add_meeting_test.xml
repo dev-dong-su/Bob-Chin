@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="25dp"
+        android:padding="20dp"
         tools:context=".AddMeetingTestActivity">
 
     <LinearLayout
@@ -43,21 +43,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" - 밥친의 연령대 : "
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#FFB03B" />
+
+        <Spinner
+                android:id="@+id/spinner_form_age"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 세 ~ "
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#FFB03B" />
+
+        <Spinner
+                android:id="@+id/spinner_to_age"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 세"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#FFB03B" />
 
     </LinearLayout>
@@ -73,10 +83,13 @@
                 android:textSize="20dp"/>
 
         <Button
+                android:id="@+id/map_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="#22222222"
                 android:text="지도보기"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
     </LinearLayout>
 
@@ -90,11 +103,26 @@
                 android:text="언제 먹을까?"
                 android:textSize="20dp" />
 
+        <Spinner
+                android:id="@+id/spinner_set_time"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
+
+        <Spinner
+                android:id="@+id/spinner_form_time"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 시 ~"
                 android:textSize="20dp" />
+
+        <Spinner
+                android:id="@+id/spinner_to_time"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -114,6 +142,11 @@
                 android:layout_height="wrap_content"
                 android:text="몇 명이서? "
                 android:textSize="20dp" />
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            android:hint="숫자" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -158,6 +191,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="15dp"
             android:background="#FFB03B"
             android:text="밥친 찾기"
             android:textSize="25dp"

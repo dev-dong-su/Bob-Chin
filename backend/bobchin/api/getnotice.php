@@ -1,13 +1,5 @@
 <?
 include_once('../auth/settings.php');
-$_meetname = $_POST['meetname'];
-$_agemax = $_POST['agemax'];
-$_agemin = $_POST['agemin'];
-$_location = $_POST['location'];
-$_starttime = $_POST['starttime'];
-$_duration = $_POST['duration'];
-$_maxpeople = $_POST['maxpeople'];
-
 if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
 $client->setAccessToken($last_accesstoken);
 if($expired) {
@@ -20,11 +12,15 @@ try{
     $email = $google_account_info->email;
     $name = $google_account_info->name;
     $id = $google_account_info->id;
-    
-    $query = "INSERT INTO meetings VALUES('','$email','|$email|','$_meetname','$_agemax','$_agemin','$_location','$_starttime','$_duration','$_maxpeople','')";
+
+    $query = "SELECT * FROM notice";
     $result = mysqli_query($con, $query);
-    
-    //no response
+
+    for($i=0;$i<mysqli_num_rows($result);$i++){
+        $row=mysqli_fetch_assoc($result);
+        $returnJSON[$i]=$row;
+    }
+    echo json_encode($returnJSON);
 }
 catch(Exception $e){
     echo "Unauthorized";

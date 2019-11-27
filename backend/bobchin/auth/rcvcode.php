@@ -14,21 +14,28 @@ if (isset($_POST['authcode'])) {
 
     $query = "SELECT count(*) as cnt FROM user WHERE email='$email'";
     $result = mysqli_query($con, $query);
+    $cnt = mysqli_fetch_assoc($result)['cnt'];
+
+    $query = "SELECT * FROM user WHERE email='$email'";
+    $result = mysqli_query($con, $query);
+    $row = mysqli_fetch_assoc($result);
 
     $returnJSON = array();
-    if(mysqli_fetch_assoc($result)['cnt'] > 0){
+    if($cnt > 0){
       	$returnJSON['user']="1";
       	$returnJSON['email']=$email;
-		$returnJSON['name']=$name;
-		$returnJSON['accesstoken']=$token['access_token'];
-		$query = "UPDATE user SET userid='$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email";
+        $returnJSON['name']=$name;
+        $returnJSON['authlevel']=$row['auth_level'];
+        $returnJSON['accesstoken']=$token['access_token'];
+		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
     else{
         $returnJSON['user']="0";
         $returnJSON['email']=$email;
 		$returnJSON['name']=$name;
-		$returnJSON['accesstoken']=$token['access_token'];
+        $returnJSON['accesstoken']=$token['access_token'];
+        $returnJSON['authlevel']=$row['auth_level'];
 		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','','','$token[access_token]','$_datetime')";
     	mysqli_query($con, $query);
 	}

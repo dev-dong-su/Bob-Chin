@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 userInfo.setUserEmail(jsonObject.getString("email"));
                 userInfo.setUserName(jsonObject.getString("name"));
                 userInfo.setUserAccessToken(jsonObject.getString("accesstoken"));
+                userInfo.setUserAuthLevel(jsonObject.getString("authlevel"));
                 userInfo.setSignedIn(true);
 
             } catch (ApiException e) {

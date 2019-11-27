@@ -1,12 +1,8 @@
 <?
 include_once('../auth/settings.php');
-$_meetname = $_POST['meetname'];
-$_agemax = $_POST['agemax'];
-$_agemin = $_POST['agemin'];
-$_location = $_POST['location'];
-$_starttime = $_POST['starttime'];
-$_duration = $_POST['duration'];
-$_maxpeople = $_POST['maxpeople'];
+
+$_msg = $_POST['msg'];
+$_datetime = date("Y-m-d H:i:s", time());
 
 if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
 $client->setAccessToken($last_accesstoken);
@@ -21,13 +17,16 @@ try{
     $name = $google_account_info->name;
     $id = $google_account_info->id;
     
-    $query = "INSERT INTO meetings VALUES('','$email','|$email|','$_meetname','$_agemax','$_agemin','$_location','$_starttime','$_duration','$_maxpeople','')";
+    $query = "SELECT auth_level FROM user WHERE email='$email'";
     $result = mysqli_query($con, $query);
-    
-    //no response
+    if(mysqli_fetch_assoc($result)['auth_level'] >= 2){
+        $query = "INSERT INTO notice VALUES('','$_msg','$_datetime')";
+        mysqli_query($con, $query);
+    }
 }
 catch(Exception $e){
     echo "Unauthorized";
     exit;
 }
+    
 ?>

@@ -54,7 +54,7 @@ public class Meetings extends Fragment {
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String [] users = jsonObject.getString("users").split("\\|");
-                meetInfoArrayList.add(new MeetInfo("얄루", jsonObject.getString("location"),jsonObject.getString("starttime"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만"));
+                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만"));
             }
         }catch (Exception e){
             e.printStackTrace();

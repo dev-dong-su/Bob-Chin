@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,10 @@ public class Settings extends Fragment {
         TextView email = v.findViewById(R.id.email);
         email.setText(userInfo.getUserEmail());
 
+        Button btnSignout = v.findViewById(R.id.btnsignout);
+        btnSignout.setOnClickListener((view)->{
+            getActivity().finish();
+        });
         return v;
     }
 }

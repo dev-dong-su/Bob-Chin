@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,25 @@ public class Settings extends Fragment {
         TextView email = v.findViewById(R.id.email);
         email.setText(userInfo.getUserEmail());
 
+        TextView authLevel = v.findViewById(R.id.auth_level);
+        String strAuthLevel = "";
+        switch(userInfo.getUserAuthLevel()){
+            case "1":
+                strAuthLevel = "회원";
+                break;
+            case "2":
+                strAuthLevel = "관리자";
+                break;
+            case "3":
+                strAuthLevel = "총관리자";
+                break;
+        }
+        authLevel.setText(strAuthLevel);
+
+        Button btnSignout = v.findViewById(R.id.btnsignout);
+        btnSignout.setOnClickListener((view)->{
+            getActivity().finish();
+        });
         return v;
     }
 }

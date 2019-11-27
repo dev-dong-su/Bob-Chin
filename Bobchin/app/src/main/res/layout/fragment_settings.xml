@@ -14,18 +14,31 @@
             android:layout_height="113dp"
             android:src="@drawable/profile" />
 
+    <Button
+            android:id="@+id/btnsignout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/signout" />
+
     <TextView
             android:id="@+id/name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20dp" />
+            android:textSize="20sp" />
+
+    <TextView
+            android:id="@+id/auth_level"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp" />
 
     <TextView
             android:id="@+id/email"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
 </LinearLayout>

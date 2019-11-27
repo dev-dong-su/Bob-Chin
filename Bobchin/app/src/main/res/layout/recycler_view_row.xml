@@ -3,11 +3,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         app:cardBackgroundColor="#FFFFFF"
         >
 
     <LinearLayout
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -52,6 +54,7 @@
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:paddingLeft="10dp"
+                    android:textSize="15dp"
                     android:text="서울특별시 상도로369 숭실대학교 스페이스엔 지하1층"
                     android:layout_toRightOf="@id/map_image"
                     android:layout_below="@id/meeting_title"
@@ -72,19 +75,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/address"
                     android:layout_toRightOf="@id/clock"
-                    android:layout_marginTop="5dp"
+                    android:layout_alignTop="@id/clock"
+                    android:layout_marginTop="3dp"
                     android:text="15:30~"
-                    android:textSize="18dp"/>
+                    android:textSize="15dp"/>
 
             <ImageView
                     android:id="@+id/person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_person"
-                    android:layout_toRightOf="@id/meet_time"
-                    android:layout_below="@id/address"
-                    android:layout_alignBottom="@id/clock"
-                    android:layout_marginLeft="20dp"
+                    android:layout_below="@id/clock"
                     android:layout_marginTop="5dp"/>
 
             <TextView
@@ -94,18 +95,21 @@
                     android:paddingLeft="10dp"
                     android:layout_toRightOf="@id/person"
                     android:text="2/4"
-                    android:textSize="18dp"
-                    android:layout_below="@id/address"
-                    android:layout_marginTop="5dp"/>
+                    android:textSize="15dp"
+                    android:layout_alignBottom="@id/person"
+                    android:layout_alignTop="@id/person"
+                    android:layout_below="@id/meet_time"
+                    android:layout_marginTop="3dp"/>
 
             <TextView
                     android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:text="#20~25세만"
                     android:paddingLeft="10dp"
-                    android:layout_below="@id/meet_time"/>
+                    android:layout_marginTop="3dp"
+                    android:layout_below="@id/person"/>
 
         </RelativeLayout>
 

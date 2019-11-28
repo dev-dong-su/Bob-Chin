@@ -4,14 +4,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragment.Meetings"
-        android:background="#FFFFFF"
->
+        android:background="#FFFFFF">
 
-    <TextView
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="meetings"
-            android:textSize="100dp"
-            android:fontFamily="@font/font"/>
+            android:orientation="vertical">
+
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/ad_example" />
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/ad_example" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="meetings"
+                android:textSize="100dp"
+                android:fontFamily="@font/font"/>
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -31,6 +31,9 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
     MapPOIItem marker;
     Button addMapPinButton;
 
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,7 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
         if(marker != null) {
             mapView.removePOIItem(marker);
+            marker = null;
         }
     }
 
@@ -90,6 +94,10 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
 
         mapView.addPOIItem(marker);
+
+        MapPoint.GeoCoordinate geoCoordinate = mapPoint.getMapPointGeoCoord();
+        latitude = geoCoordinate.latitude;
+        longitude = geoCoordinate.longitude;
     }
 
     @Override
@@ -111,10 +119,10 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
     @Override
     public void onClick(View view) {
         if(marker == null) {
-            Toast.makeText(this, "마커를 만들어 주세요!", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "마커를 만들어 주세요!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this, "마커를 확인했어요!", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "마커를 확인했어요! latitude : " + latitude +" longitude : " + longitude, Toast.LENGTH_LONG).show();
         }
     }
 }

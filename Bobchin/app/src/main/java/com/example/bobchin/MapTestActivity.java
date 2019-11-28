@@ -2,6 +2,7 @@ package com.example.bobchin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,10 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
         }
         else {
             Toast.makeText(this, "마커를 확인했어요! latitude : " + latitude +" longitude : " + longitude, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), AddMeetingTestActivity.class);
+            intent.putExtra("Latitude", latitude);
+            intent.putExtra("Longitude", longitude);
+            startActivity(intent);
         }
     }
 }

@@ -14,17 +14,19 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class AddMeetingTestActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener {
     double latitude;
     double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_meeting_test);
+        setContentView(R.layout.activity_add_meeting);
 
-        Button buttonMap = findViewById(R.id.map_button);
-        buttonMap.setOnClickListener(this);
+        Button mapButton = findViewById(R.id.map_button);
+        Button findBobchinButton = findViewById(R.id.button_find_bobchin);
+        mapButton.setOnClickListener(this);
+        findBobchinButton.setOnClickListener(this);
 
         Spinner spinnerFromAge = findViewById(R.id.spinner_form_age);
         Spinner spinnerToAge = findViewById(R.id.spinner_to_age);
@@ -57,12 +59,14 @@ public class AddMeetingTestActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.map_button) {
-            Intent intent = new Intent(getApplicationContext(), MapTestActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
+            finish();
         }
         else if (view.getId() == R.id.button_find_bobchin) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 

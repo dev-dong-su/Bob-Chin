@@ -26,7 +26,7 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-public class MapTestActivity extends AppCompatActivity implements MapView.MapViewEventListener, View.OnClickListener {
+public class MapActivity extends AppCompatActivity implements MapView.MapViewEventListener, View.OnClickListener {
 
     MapView mapView;
     MapPOIItem marker;
@@ -52,7 +52,7 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_test);
+        setContentView(R.layout.activity_map);
 
         mapView = new MapView(this);
         mapView.setMapViewEventListener(this);
@@ -70,7 +70,7 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
                 final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
                 if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions( MapTestActivity.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
+                    ActivityCompat.requestPermissions( MapActivity.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
                 }
                 else {
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -139,11 +139,11 @@ public class MapTestActivity extends AppCompatActivity implements MapView.MapVie
             Toast.makeText(this, "마커를 만들어 주세요!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(this, "마커를 확인했어요! latitude : " + latitude +" longitude : " + longitude, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(), AddMeetingTestActivity.class);
+            Intent intent = new Intent(getApplicationContext(), AddMeetingActivity.class);
             intent.putExtra("Latitude", latitude);
             intent.putExtra("Longitude", longitude);
             startActivity(intent);
+            finish();
         }
     }
 

@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class AddMeetingTestActivity extends AppCompatActivity implements View.OnClickListener {
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,14 @@ public class AddMeetingTestActivity extends AppCompatActivity implements View.On
         adapter = ArrayAdapter.createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
         spinnerFromTime.setAdapter(adapter);
         spinnerToTime.setAdapter(adapter);
+
+        Intent intent = getIntent();
+
+        latitude = intent.getDoubleExtra("Latitude", 0.0);
+        longitude = intent.getDoubleExtra("Longitude", 0.0);
+
+        TextView geoTextView = findViewById(R.id.text_geo);
+        geoTextView.setText("선택한 좌표 : Latitude = " + latitude + ", Longitude = " + longitude);
     }
 
     @Override

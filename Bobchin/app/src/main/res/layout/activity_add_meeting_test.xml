@@ -197,6 +197,7 @@
     </LinearLayout>
 
     <Button
+            android:id="@+id/button_find_bobchin"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

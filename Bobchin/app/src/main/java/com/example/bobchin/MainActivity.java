@@ -14,8 +14,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.bobchin.Adapter.TabPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-
-
 public class MainActivity extends AppCompatActivity {
 
     private Context mContext;
@@ -25,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

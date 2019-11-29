@@ -95,8 +95,11 @@ public class LoginActivity extends AppCompatActivity {
                 userInfo.setUserName(jsonObject.getString("name"));
                 userInfo.setUserAccessToken(jsonObject.getString("accesstoken"));
                 userInfo.setUserAuthLevel(jsonObject.getString("authlevel"));
+                userInfo.setUserPhotoURL(jsonObject.getString("photo"));
                 userInfo.setSignedIn(true);
 
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
             } catch (ApiException e) {
                 Toast.makeText(this.getApplicationContext(), "Sign-in Failed", Toast.LENGTH_LONG).show();
             } catch (InterruptedException e) {
@@ -107,10 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(intent);
     }
 
 }

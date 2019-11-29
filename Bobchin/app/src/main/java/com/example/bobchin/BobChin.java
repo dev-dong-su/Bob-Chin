@@ -15,7 +15,7 @@ public class BobChin extends Application {
 
 
     public class UserInfo {
-        private String userEmail, userName, userAccessToken, userAuthLevel;
+        private String userEmail, userName, userAccessToken, userAuthLevel, userPhotoURL;
         private Boolean isSignedIn;
 
         public Boolean getSignedIn() { return this.isSignedIn; }
@@ -37,6 +37,10 @@ public class BobChin extends Application {
         public String getUserAuthLevel() { return userAuthLevel; }
 
         public void setUserAuthLevel(String userAuthLevel) { this.userAuthLevel = userAuthLevel; }
+
+        public String getUserPhotoURL() { return userPhotoURL; }
+
+        public void setUserPhotoURL(String userPhotoURL) { this.userPhotoURL = userPhotoURL; }
     }
 
 }

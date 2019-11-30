@@ -97,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
             mViewPager.setCurrentItem(1);
-            ((Mymeetings)findFragmentByPosition(1)).setResultNull();
-            ((Mymeetings)findFragmentByPosition(1)).Refresh();
+            if(resCode == 0) {
+                ((Mymeetings) findFragmentByPosition(1)).setResultNull();
+                ((Mymeetings) findFragmentByPosition(1)).Refresh();
+            }
         }
     }
 }

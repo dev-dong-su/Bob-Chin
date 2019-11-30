@@ -25,6 +25,8 @@
                 android:text="모임 추가"
                 android:textColor="#FFFFFF"
                 android:background="#FFB03B"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

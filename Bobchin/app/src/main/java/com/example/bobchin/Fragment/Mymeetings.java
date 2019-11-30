@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,41 +33,60 @@ public class Mymeetings extends Fragment {
     public Mymeetings() {
         // Required empty public constructor
     }
+    static String result="";
+    ArrayList<MeetInfo> meetInfoArrayList;
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    MyAdapter myAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView mRecyclerView;
-        RecyclerView.LayoutManager mLayoutManager;
         View v = inflater.inflate(R.layout.fragment_mymeetings, container, false);
         mRecyclerView = v.findViewById(R.id.recycler_view2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        BobChin bobChin = (BobChin)getActivity().getApplicationContext();
-        BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
-        HttpGet httpGet = new HttpGet();
+        meetInfoArrayList = new ArrayList<>();
+        myAdapter = new MyAdapter(meetInfoArrayList);
+        SwipeRefreshLayout swipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout_2);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setResultNull();
+                Refresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        Refresh();
 
-        ArrayList<MeetInfo> meetInfoArrayList = new ArrayList<>();
+        return v;
+    }
 
+    public void setResultNull(){
+        result = "";
+    }
+
+    public void Refresh(){
         try{
-            String result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token="+userInfo.getUserAccessToken()).get();
+            BobChin bobChin = (BobChin)getActivity().getApplicationContext();
+            BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
+            HttpGet httpGet = new HttpGet();
+
+            meetInfoArrayList.clear();
+            if(result.isEmpty())
+                result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token="+userInfo.getUserAccessToken()).get();
             System.out.println(result);
             JSONArray jsonArray = new JSONArray(result);
             System.out.println(jsonArray.length());
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String [] users = jsonObject.getString("users").split("\\|");
-                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만"));
+                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime")+", "+jsonObject.getString("duration"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만",jsonObject.getString("meetID"),jsonObject.getString("meetmsg")));
             }
+            mRecyclerView.setAdapter(myAdapter);
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        MyAdapter myAdapter = new MyAdapter(meetInfoArrayList);
-
-        mRecyclerView.setAdapter(myAdapter);
-
-        return v;
     }
 }
 

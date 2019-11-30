@@ -27,7 +27,7 @@ import java.net.URL;
 
 public class Settings extends Fragment {
 
-    Bitmap bitmap;
+    static Bitmap bitmap;
     public Settings() {
         // Required empty public constructor
     }
@@ -69,12 +69,14 @@ public class Settings extends Fragment {
 
                     // Web에서 이미지를 가져온 뒤
                     // ImageView에 지정할 Bitmap을 만든다
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoInput(true); // 서버로 부터 응답 수신
-                    conn.connect();
+                    if(bitmap == null) {
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoInput(true); // 서버로 부터 응답 수신
+                        conn.connect();
 
-                    InputStream is = conn.getInputStream(); // InputStream 값 가져오기
-                    bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                        InputStream is = conn.getInputStream(); // InputStream 값 가져오기
+                        bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
+                    }
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -98,6 +100,7 @@ public class Settings extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         Button btnSignout = v.findViewById(R.id.btnsignout);
         btnSignout.setOnClickListener((view)->{
             getActivity().finish();

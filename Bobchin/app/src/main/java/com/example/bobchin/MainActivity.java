@@ -1,7 +1,10 @@
 package com.example.bobchin;
 
+import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -9,9 +12,12 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bobchin.Adapter.TabPagerAdapter;
+import com.example.bobchin.Fragment.Meetings;
+import com.example.bobchin.Fragment.Mymeetings;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -81,5 +87,18 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setCustomView(actionbar,params);
 
         return true;
+    }
+
+    //EnterMeet 처리
+    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,1));}
+
+    @Override
+    public void onActivityResult(int reqCode, int resCode, Intent data){
+        super.onActivityResult(reqCode,resCode,data);
+        if(reqCode == 1) {
+            mViewPager.setCurrentItem(1);
+            ((Mymeetings)findFragmentByPosition(1)).setResultNull();
+            ((Mymeetings)findFragmentByPosition(1)).Refresh();
+        }
     }
 }

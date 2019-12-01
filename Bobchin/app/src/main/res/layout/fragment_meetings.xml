@@ -11,28 +11,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp">
-
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/ad_example" />
-
-                <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/ad_example" />
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -6,16 +6,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bobchin.Adapter.TabPagerAdapter;
+import com.example.bobchin.Fragment.FirstAdFragment;
+import com.example.bobchin.Fragment.SecondAdFragment;
+import com.example.bobchin.Fragment.ThirdAdFragment;
 import com.google.android.material.tabs.TabLayout;
 
+import me.relex.circleindicator.CircleIndicator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabPagerAdapter mContentPagerAdapter;
 
+    private FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                ViewGroup viewGroup = findViewById(R.id.ad_layout);
+                if (tab.getPosition() != 0) {
+                    viewGroup.setVisibility(View.GONE);
+                }
+                else {
+                    viewGroup.setVisibility(View.VISIBLE);
+                }
                 mViewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -55,6 +72,47 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        //ad 관련
+        ViewPager adPager = (ViewPager) findViewById(R.id.view_pager_ad);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        adPager.setAdapter(adapterViewPager);
+
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(adPager);
+    }
+
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return FirstAdFragment.newInstance(0, "Page # 1");
+                case 1:
+                    return SecondAdFragment.newInstance(1, "Page # 2");
+                case 2:
+                    return ThirdAdFragment.newInstance(2, "Page # 3");
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
     }
 
     @Override

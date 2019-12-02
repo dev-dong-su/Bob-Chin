@@ -12,10 +12,12 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bobchin.BobChin;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.R;
 import com.example.bobchin.select_meeting;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.util.ArrayList;
 
@@ -56,7 +58,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     @Override // onBindViewHolder는 뷰홀더에 데이터를 입력시킴.
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         myViewHolder.title.setText(MeetInfoArrayList.get(position).title);
         myViewHolder.address.setText(MeetInfoArrayList.get(position).address);
@@ -69,8 +70,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             @Override
             public void onClick(View v){
                 //Toast.makeText(v.getContext(),myViewHolder.data.meetid,Toast.LENGTH_LONG).show();
+                int position = holder.getAdapterPosition();
+                System.out.println(enteredMeet(position));
                 Intent intent = new Intent(v.getContext(), select_meeting.class);
                 intent.putExtra("class",myViewHolder.data);
+                intent.putExtra("entered", enteredMeet(position));
                 ((Activity) v.getContext()).startActivityForResult(intent,1);
             }
         });
@@ -79,6 +83,15 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     @Override // 사이즈 확인
     public int getItemCount() {
         return MeetInfoArrayList.size();
+    }
+
+    public boolean enteredMeet(int i){
+        for(int x = 1; x < MeetInfoArrayList.get(i).users.length; x++){
+            if(MeetInfoArrayList.get(i).users[x].equals(MeetInfoArrayList.get(i).user)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public MeetInfo getNthItem(int i){

@@ -44,6 +44,13 @@ public class select_meeting extends AppCompatActivity {
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
 
+        //meetinfo.users Test
+        String testString ="";
+        for(int i=1;i<meetInfo.users.length;i++){
+            testString += (meetInfo.users[i] + ", ");
+        }
+        Toast.makeText(getApplicationContext(),testString,Toast.LENGTH_LONG).show();
+
         btnEnterMeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -22,7 +22,6 @@ import com.example.bobchin.Fragment.Mymeetings;
 import java.util.concurrent.ExecutionException;
 
 public class select_meeting extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +36,8 @@ public class select_meeting extends AppCompatActivity {
 
         Intent intent = getIntent();
         MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
+        boolean entered = (boolean)intent.getSerializableExtra("entered");
+
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
         address.setText(meetInfo.address);
@@ -44,17 +45,15 @@ public class select_meeting extends AppCompatActivity {
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
 
-        //meetinfo.users Test
-        String testString ="";
-        for(int i=1;i<meetInfo.users.length;i++){
-            testString += (meetInfo.users[i] + ", ");
+        if(entered){
+            btnEnterMeet.setText("밥친 취소");
         }
-        Toast.makeText(getApplicationContext(),testString,Toast.LENGTH_LONG).show();
 
         btnEnterMeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+
                     BobChin bobchin = (BobChin)getApplication();
                     HttpPost httpPost = new HttpPost();
                     String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();

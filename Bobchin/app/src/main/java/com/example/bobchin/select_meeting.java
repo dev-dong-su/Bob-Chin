@@ -33,6 +33,7 @@ public class select_meeting extends AppCompatActivity {
         TextView person = findViewById(R.id.person);
         TextView meetmsg = findViewById(R.id.meetmsg);
         Button btnEnterMeet = findViewById(R.id.entermeet);
+        Button btnEnterChat = findViewById(R.id.enterchat);
 
         Intent intent = getIntent();
         MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
@@ -45,7 +46,22 @@ public class select_meeting extends AppCompatActivity {
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
 
-        if(entered){btnEnterMeet.setText("밥친 취소");}
+      
+        if(entered){
+            btnEnterMeet.setText("밥친 취소");
+            btnEnterChat.setVisibility(View.VISIBLE);
+        }
+
+        btnEnterChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),activity_chatroom.class);
+                intent.putExtra("title",meetInfo.title);
+                intent.putExtra("meetid",meetInfo.meetid);
+
+                startActivity(intent);
+            }
+        });
 
         btnEnterMeet.setOnClickListener(new View.OnClickListener() {
             @Override

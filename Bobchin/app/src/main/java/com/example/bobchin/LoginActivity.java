@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.MainThread;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
+
         setContentView(R.layout.login);
 
         String serverClientId = getString(R.string.server_client_id);
@@ -94,8 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                 userInfo.setUserEmail(jsonObject.getString("email"));
                 userInfo.setUserName(jsonObject.getString("name"));
                 userInfo.setUserAccessToken(jsonObject.getString("accesstoken"));
+                userInfo.setUserAuthLevel(jsonObject.getString("authlevel"));
+                userInfo.setUserPhotoURL(jsonObject.getString("photo"));
                 userInfo.setSignedIn(true);
 
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
             } catch (ApiException e) {
                 Toast.makeText(this.getApplicationContext(), "Sign-in Failed", Toast.LENGTH_LONG).show();
             } catch (InterruptedException e) {
@@ -106,10 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(intent);
     }
 
 }

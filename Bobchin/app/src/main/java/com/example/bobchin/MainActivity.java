@@ -1,8 +1,10 @@
 package com.example.bobchin;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -22,6 +24,10 @@ import com.example.bobchin.Adapter.TabPagerAdapter;
 import com.example.bobchin.Fragment.FirstAdFragment;
 import com.example.bobchin.Fragment.SecondAdFragment;
 import com.example.bobchin.Fragment.ThirdAdFragment;
+
+import com.example.bobchin.Fragment.Meetings;
+import com.example.bobchin.Fragment.Mymeetings;
+
 import com.google.android.material.tabs.TabLayout;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
+      
         //ad 관련
         ViewPager adPager = (ViewPager) findViewById(R.id.view_pager_ad);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
@@ -148,5 +154,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    //EnterMeet 처리
+    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,1));}
+
+    @Override
+    public void onActivityResult(int reqCode, int resCode, Intent data){
+        super.onActivityResult(reqCode,resCode,data);
+        if(reqCode == 1) {
+            mViewPager.setCurrentItem(1);
+            if(resCode == 0) {
+                ((Mymeetings) findFragmentByPosition(1)).setResultNull();
+                ((Mymeetings) findFragmentByPosition(1)).Refresh();
+            }
+        }
     }
 }

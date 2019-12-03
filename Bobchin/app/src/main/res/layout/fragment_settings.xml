@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Fragment.Settings"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:fontFamily="@font/font">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/profile"/>
+
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="settings"
-            android:textSize="100dp"
-            android:fontFamily="@font/font"/>
+            android:id="@+id/name"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text=""
+            android:textSize="20sp" />
 
-</FrameLayout>
+    <TextView
+            android:id="@+id/auth_level"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text=""
+            android:textSize="20sp" />
+
+    <TextView
+            android:id="@+id/email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp" />
+
+    <Button
+            android:id="@+id/btnsignout"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:background="#ff9900"
+            android:text="로그아웃"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+
+</LinearLayout>

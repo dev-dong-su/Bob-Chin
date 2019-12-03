@@ -114,6 +114,12 @@
 
     </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:orientation="horizontal"
+            android:gravity="center">
+
     <Button
             android:id="@+id/entermeet"
             style="@style/Widget.AppCompat.Button"
@@ -123,5 +129,20 @@
             android:text="밥친하기"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
+
+    <Button
+            android:id="@+id/enterchat"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="#87cefa"
+            android:text="채팅하기"
+            android:layout_marginLeft="50dp"
+            android:textColor="#FFFFFF"
+            android:visibility="gone"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

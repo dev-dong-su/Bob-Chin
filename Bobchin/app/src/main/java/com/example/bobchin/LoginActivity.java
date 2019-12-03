@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 userInfo.setUserAccessToken(jsonObject.getString("accesstoken"));
                 userInfo.setUserAuthLevel(jsonObject.getString("authlevel"));
                 userInfo.setUserPhotoURL(jsonObject.getString("photo"));
+                userInfo.setUserId(jsonObject.getString("userid"));
                 userInfo.setSignedIn(true);
 
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);

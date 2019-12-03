@@ -18,8 +18,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.bobchin.Adapter.TabPagerAdapter;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.Fragment.Mymeetings;
+import com.example.bobchin.function.Makechatroom;
 import com.google.android.material.tabs.TabLayout;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -60,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
     }
 
     @Override

@@ -163,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            mViewPager.setCurrentItem(1);
             if(resCode == 0) {
+                mViewPager.setCurrentItem(1);
                 ((Mymeetings) findFragmentByPosition(1)).setResultNull();
                 ((Mymeetings) findFragmentByPosition(1)).Refresh();
             }

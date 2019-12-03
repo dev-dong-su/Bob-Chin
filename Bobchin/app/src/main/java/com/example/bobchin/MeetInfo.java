@@ -10,8 +10,10 @@ public class MeetInfo implements Serializable { //아이템정보 입력할때 �
     public String age;
     public String meetid;
     public String meetmsg;
+    public String [] users;
+    public String user;
 
-    public MeetInfo(String title, String address, String time, String person, String age, String meetid,String meetmsg){
+    public MeetInfo(String title, String address, String time, String person, String age, String meetid,String meetmsg,String [] users, String user){
         this.title=title;
         this.address = address;
         this.time=time;
@@ -19,6 +21,21 @@ public class MeetInfo implements Serializable { //아이템정보 입력할때 �
         this.age=age;
         this.meetid=meetid;
         this.meetmsg=meetmsg;
+        this.users = users;
+        this.user = user;
+
+    }
+
+    public MeetInfo(String title, String address, String time, String person, String age, String meetid,String meetmsg,String [] users){
+        this.title=title;
+        this.address = address;
+        this.time=time;
+        this.person=person;
+        this.age=age;
+        this.meetid=meetid;
+        this.meetmsg=meetmsg;
+        this.users = users;
+        this.user = user;
     }
 }
 

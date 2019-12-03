@@ -5,8 +5,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragment.Meetings"
-        android:background="#FFFFFF"
-        >
+        android:background="#FFFFFF">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh_layout_1"
                 android:layout_width="match_parent"
@@ -19,4 +24,5 @@
                                 android:background="@android:color/white"
                                 />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </FrameLayout>

@@ -17,7 +17,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity android:name=".MapActivity" />
-        <activity android:name=".AddMeetingActivity" />
+        <activity android:name=".AddMeetingActivity"
+                android:launchMode="singleTask"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

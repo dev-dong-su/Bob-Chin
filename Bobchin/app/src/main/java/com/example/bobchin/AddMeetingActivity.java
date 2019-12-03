@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -25,6 +26,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     double latitude;
     double longitude;
 
+    TextView geoTextView;
+
     EditText titleEditText;
     EditText maxPeopleEditText;
     EditText contentEditText;
@@ -34,6 +37,16 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     Spinner spinnerTimeHour;
     Spinner spinnerTimeMinute;
     Spinner spinnerDuration;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        latitude = intent.getDoubleExtra("Latitude", 0.0);
+        longitude = intent.getDoubleExtra("Longitude", 0.0);
+
+        geoTextView = findViewById(R.id.text_geo);
+        geoTextView.setText("선택한 좌표 : Latitude = " + latitude + ", Longitude = " + longitude);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +95,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         if (view.getId() == R.id.map_button) {
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
             startActivity(intent);
-            finish();
         }
         else if (view.getId() == R.id.button_find_bobchin) {
             Date currentTime = Calendar.getInstance().getTime();
@@ -97,28 +109,27 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             // 서버로 보낼 값들
             String title;
             String content;
-            int ageMax;
-            int ageMin;
+            String ageMax;
+            String ageMin;
             String location;
             String startTime;
-            double duration;
-            int maxPeople;
+            String duration;
+            String maxPeople;
 
             title = titleEditText.getText().toString();
             content = contentEditText.getText().toString();
-            ageMax = Integer.parseInt(spinnerToAge.getSelectedItem().toString());
-            ageMin = Integer.parseInt(spinnerFromAge.getSelectedItem().toString());
+            ageMax = spinnerToAge.getSelectedItem().toString();
+            ageMin = spinnerFromAge.getSelectedItem().toString();
             location = longitude + ", " + latitude;
             startTime = year +  "-" + month + "-" + day + " " + spinnerTimeHour.getSelectedItem().toString() + ":" + spinnerTimeMinute.getSelectedItem().toString() + ":00";
-            duration = Double.parseDouble(spinnerDuration.getSelectedItem().toString());
-            maxPeople = Integer.parseInt(maxPeopleEditText.getText().toString());
+            duration = spinnerDuration.getSelectedItem().toString();
+            maxPeople = maxPeopleEditText.getText().toString();
 
             BobChin bobChin = (BobChin)getApplicationContext();
             // 서버 통신
             try {
                 HttpPost httpPost = new HttpPost();
-                String result = httpPost.execute("http://bobchin/api/addmeet.php", "token="+bobChin.getUserInfoObj().getUserAccessToken()+"&meetname="+title+"&meetmsg="+content+"&agemax="+ageMax+"&agemin="+ageMin+"&location="+location+"&starttime="+startTime+"&duration="+duration+"&maxpeople="+maxPeople).get();
-                Toast.makeText(getApplicationContext(), "결과 : " + result, Toast.LENGTH_LONG).show();
+                String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token="+bobChin.getUserInfoObj().getUserAccessToken()+"&meetname="+title+"&meetmsg="+content+"&agemax="+ageMax+"&agemin="+ageMin+"&location="+location+"&starttime="+startTime+"&duration="+duration+"&maxpeople="+maxPeople).get();
             } catch (Exception e) {
                 e.printStackTrace();
             }

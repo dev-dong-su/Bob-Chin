@@ -14,6 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".AlarmActivity"></activity>
         <activity android:name=".select_meeting"></activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoginActivity">
@@ -23,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity_chatroom"></activity>
     </application>
 
 </manifest>

@@ -69,6 +69,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             @Override
             public void onClick(View v){
                 //Toast.makeText(v.getContext(),myViewHolder.data.meetid,Toast.LENGTH_LONG).show();
+<<<<<<< Updated upstream
+=======
+                int position = holder.getAdapterPosition();
+>>>>>>> Stashed changes
                 Intent intent = new Intent(v.getContext(), select_meeting.class);
                 intent.putExtra("class",myViewHolder.data);
                 ((Activity) v.getContext()).startActivityForResult(intent,1);

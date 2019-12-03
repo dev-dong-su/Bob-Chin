@@ -37,6 +37,11 @@ public class select_meeting extends AppCompatActivity {
 
         Intent intent = getIntent();
         MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
+<<<<<<< Updated upstream
+=======
+        boolean entered = meetInfo.isUser;
+
+>>>>>>> Stashed changes
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
         address.setText(meetInfo.address);
@@ -56,6 +61,7 @@ public class select_meeting extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     BobChin bobchin = (BobChin)getApplication();
+<<<<<<< Updated upstream
                     HttpPost httpPost = new HttpPost();
                     String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
                     String msg = "";
@@ -69,6 +75,37 @@ public class select_meeting extends AppCompatActivity {
                         case "2":
                             msg = "이미 밥친입니다";
                             break;
+=======
+                    if(entered){
+                        HttpPost httpPost = new HttpPost();
+                        httpPost.execute("http://bobchin.cf/api/outmeet.php", "token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid);
+                        meetInfo.isUser=false;
+                        String msg = "밥친이 취소되었습니다.";
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+
+                        setResult(0);
+                        finish();
+                    }
+                    else {
+                        HttpPost httpPost = new HttpPost();
+                        String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
+                        String msg = "";
+                        switch (result){
+                            case "0":
+                                meetInfo.isUser=true;
+                                msg = "밥친이 되었습니다";
+                                break;
+                            case "1":
+                                msg = "밥친이 이미 다 모였습니다";
+                                break;
+                            case "2":
+                                msg = "이미 밥친입니다";
+                                break;
+                        }
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                        setResult(Integer.parseInt(result));
+                        finish();
+>>>>>>> Stashed changes
                     }
                     Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
                     setResult(Integer.parseInt(result));

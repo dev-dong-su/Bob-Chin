@@ -29,13 +29,15 @@
         android:fontFamily="@font/font"
             android:layout_weight="10"/>
 
-    <ImageView
+    <ImageButton
+            android:id="@+id/button_alarm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-        android:src="@drawable/ic_notifications_black_24dp"
-        android:layout_toRightOf="@id/title"
+            android:src="@drawable/ic_notifications_black_24dp"
+            android:layout_toRightOf="@id/title"
             android:layout_weight="1"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:background="#FFFFFFFF"/>
 
 
 

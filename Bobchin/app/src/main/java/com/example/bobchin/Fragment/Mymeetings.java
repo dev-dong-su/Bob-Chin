@@ -35,9 +35,9 @@ public class Mymeetings extends Fragment {
     }
     static String result="";
     ArrayList<MeetInfo> meetInfoArrayList;
-    RecyclerView mRecyclerView;
+    public RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
-    MyAdapter myAdapter;
+    public MyAdapter myAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class Mymeetings extends Fragment {
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String [] users = jsonObject.getString("users").split("\\|");
-                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime")+", "+jsonObject.getString("duration"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만",jsonObject.getString("meetID"),jsonObject.getString("meetmsg"),users, userInfo.getUserEmail()));
+                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime")+", "+jsonObject.getString("duration"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만",jsonObject.getString("meetID"),jsonObject.getString("meetmsg"),users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
             }
 
             mRecyclerView.setAdapter(myAdapter);

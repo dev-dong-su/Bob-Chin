@@ -37,8 +37,8 @@ public class select_meeting extends AppCompatActivity {
 
         Intent intent = getIntent();
         MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
-        boolean entered = (boolean)intent.getSerializableExtra("entered");
-
+        boolean entered = meetInfo.isUser;
+      
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
         address.setText(meetInfo.address);
@@ -68,21 +68,22 @@ public class select_meeting extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     BobChin bobchin = (BobChin)getApplication();
+                    HttpPost httpPost = new HttpPost();
+                    String msg = "";
                     if(entered){
-                        HttpPost httpPost = new HttpPost();
                         httpPost.execute("http://bobchin.cf/api/outmeet.php", "token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid);
-                        String msg = "밥친이 취소되었습니다.";
-                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                        meetInfo.isUser=false;
+                        msg = "밥친이 취소되었습니다.";
 
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
                         setResult(0);
                         finish();
                     }
                     else {
-                        HttpPost httpPost = new HttpPost();
                         String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
-                        String msg = "";
                         switch (result){
                             case "0":
+                                meetInfo.isUser=true;
                                 msg = "밥친이 되었습니다";
                                 break;
                             case "1":

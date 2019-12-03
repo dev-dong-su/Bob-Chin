@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //EnterMeet 처리
-    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,1));}
+    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
 
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent data){
@@ -165,8 +165,11 @@ public class MainActivity extends AppCompatActivity {
         if(reqCode == 1) {
             if(resCode == 0) {
                 mViewPager.setCurrentItem(1);
-                ((Mymeetings) findFragmentByPosition(1)).setResultNull();
-                ((Mymeetings) findFragmentByPosition(1)).Refresh();
+                Meetings meetings = (Meetings)findFragmentByPosition(0);
+                meetings.Refresh();
+                Mymeetings mymeetings = (Mymeetings)findFragmentByPosition(1);
+                mymeetings.setResultNull();
+                mymeetings.Refresh();
             }
         }
     }

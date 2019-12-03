@@ -75,10 +75,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             public void onClick(View v){
                 //Toast.makeText(v.getContext(),myViewHolder.data.meetid,Toast.LENGTH_LONG).show();
                 int position = holder.getAdapterPosition();
-                System.out.println(enteredMeet(position));
                 Intent intent = new Intent(v.getContext(), select_meeting.class);
                 intent.putExtra("class",myViewHolder.data);
-                intent.putExtra("entered", enteredMeet(position));
                 ((Activity) v.getContext()).startActivityForResult(intent,1);
             }
         });

@@ -46,6 +46,7 @@ public class select_meeting extends AppCompatActivity {
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
 
+      
         if(entered){
             btnEnterMeet.setText("밥친 취소");
             btnEnterChat.setVisibility(View.VISIBLE);
@@ -66,25 +67,35 @@ public class select_meeting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-
                     BobChin bobchin = (BobChin)getApplication();
-                    HttpPost httpPost = new HttpPost();
-                    String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
-                    String msg = "";
-                    switch (result){
-                        case "0":
-                            msg = "밥친이 되었습니다";
-                            break;
-                        case "1":
-                            msg = "밥친이 이미 다 모였습니다";
-                            break;
-                        case "2":
-                            msg = "이미 밥친입니다";
-                            break;
+                    if(entered){
+                        HttpPost httpPost = new HttpPost();
+                        httpPost.execute("http://bobchin.cf/api/outmeet.php", "token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid);
+                        String msg = "밥친이 취소되었습니다.";
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+
+                        setResult(0);
+                        finish();
                     }
-                    Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
-                    setResult(Integer.parseInt(result));
-                    finish();
+                    else {
+                        HttpPost httpPost = new HttpPost();
+                        String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
+                        String msg = "";
+                        switch (result){
+                            case "0":
+                                msg = "밥친이 되었습니다";
+                                break;
+                            case "1":
+                                msg = "밥친이 이미 다 모였습니다";
+                                break;
+                            case "2":
+                                msg = "이미 밥친입니다";
+                                break;
+                        }
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                        setResult(Integer.parseInt(result));
+                        finish();
+                    }
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Jua&display=swap&subset=korean');
+*{
+    font-family: 'Jua', sans-serif;
+}
+
+.nav-item.active .nav-link{
+    background-color: #c2c2c2 !important;
+}

@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             if(resCode == 0) {
                 mViewPager.setCurrentItem(1);
                 Meetings meetings = (Meetings)findFragmentByPosition(0);
+                meetings.setResultNull();
                 meetings.Refresh();
                 Mymeetings mymeetings = (Mymeetings)findFragmentByPosition(1);
                 mymeetings.setResultNull();

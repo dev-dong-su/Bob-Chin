@@ -10,7 +10,8 @@ if (isset($_POST['authcode'])) {
     $google_account_info = $google_oauth->userinfo->get();
     $email = $google_account_info->email;
 	$name = $google_account_info->name;
-	$id = $google_account_info->id;
+    $id = $google_account_info->id;
+    $picture = $google_account_info->picture;
 
     $query = "SELECT count(*) as cnt FROM user WHERE email='$email'";
     $result = mysqli_query($con, $query);
@@ -26,17 +27,21 @@ if (isset($_POST['authcode'])) {
       	$returnJSON['email']=$email;
         $returnJSON['name']=$name;
         $returnJSON['authlevel']=$row['auth_level'];
+        $returnJSON['photo']=$picture;
         $returnJSON['accesstoken']=$token['access_token'];
-		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
+        $returnJSON['userid']=$id;
+		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',photo=\"$picture\",last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
     else{
         $returnJSON['user']="0";
         $returnJSON['email']=$email;
-		$returnJSON['name']=$name;
-        $returnJSON['accesstoken']=$token['access_token'];
+        $returnJSON['name']=$name;
         $returnJSON['authlevel']=$row['auth_level'];
-		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','','','$token[access_token]','$_datetime')";
+        $returnJSON['photo']=$picture;
+        $returnJSON['accesstoken']=$token['access_token'];
+        $returnJSON['userid']=$id;
+		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','','1','$token[access_token]','$_datetime')";
     	mysqli_query($con, $query);
 	}
 	echo json_encode($returnJSON);

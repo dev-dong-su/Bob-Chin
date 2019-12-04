@@ -2,7 +2,7 @@
 -------------
 
 <p align="center">
-    <img src="./img/logo.png" alt="logo" width="220" height="220">
+    <img src="./logo.png" alt="logo" width="220" height="220">
 </p>
 
 <p align="center">
@@ -14,16 +14,16 @@
 ## 📋 OverView
 --------------
 <p align="center">
-    <img src="./img/main.png" alt="main" >
+    <img src="./main.png" alt="main" >
 </p>
 <p align="center">
-    <img src="./img/mymeeting.png" alt="mymeeting" >
+    <img src="./mymeeting.png" alt="mymeeting" >
 </p>
 <p align="center">
-    <img src="./img/addmeeting.png" alt="mymeeting" >
+    <img src="./addmeeting.png" alt="mymeeting" >
 </p>
 <p align="center">
-    <img src="./img/cheating.png" alt="mymeeting" >
+    <img src="./cheating.png" alt="mymeeting" >
 </p>
 
 

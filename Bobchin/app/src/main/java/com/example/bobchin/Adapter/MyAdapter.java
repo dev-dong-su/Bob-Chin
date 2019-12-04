@@ -87,15 +87,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         return MeetInfoArrayList.size();
     }
 
-    public boolean enteredMeet(int i){
-        for(int x = 1; x < MeetInfoArrayList.get(i).users.length; x++){
-            if(MeetInfoArrayList.get(i).users[x].equals(MeetInfoArrayList.get(i).user)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public MeetInfo getNthItem(int i){
         return MeetInfoArrayList.get(i);
     }

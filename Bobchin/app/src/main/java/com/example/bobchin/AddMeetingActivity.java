@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -125,19 +127,35 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             duration = spinnerDuration.getSelectedItem().toString();
             maxPeople = maxPeopleEditText.getText().toString();
 
-            BobChin bobChin = (BobChin)getApplicationContext();
-            // 서버 통신
-            try {
-                HttpPost httpPost = new HttpPost();
-                String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token="+bobChin.getUserInfoObj().getUserAccessToken()+"&meetname="+title+"&meetmsg="+content+"&agemax="+ageMax+"&agemin="+ageMin+"&location="+location+"&starttime="+startTime+"&duration="+duration+"&maxpeople="+maxPeople).get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            if((title != null) && (content != null) && (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0)) {
+                BobChin bobChin = (BobChin) getApplicationContext();
+                // 서버 통신
+                try {
+                    HttpPost httpPost = new HttpPost();
+                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople).get();
+                    Log.d("AddMeetingActivity", "result : " + result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            // 메인으로 돌아가는 코드
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+                // 메인으로 돌아가는 코드
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("모임 생성 실패")
+                        .setMessage("장소 좌표나 나이, 참여인원이 0이 아닌지 확인해주세요!")
+                        .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .show();
+            }
         }
     }
 
@@ -165,5 +183,21 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         actionBar.setCustomView(actionbar,params);
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("저장하지 않고 종료")
+                .setMessage("모임을 만들지 않고 종료하시겠습니까?")
+                .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("아니오", null)
+                .show();
     }
 }

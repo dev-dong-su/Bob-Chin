@@ -1,12 +1,20 @@
 package com.example.bobchin;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,16 +23,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int REQUEST_CODE = 0;
+
     double latitude;
     double longitude;
 
@@ -39,6 +51,31 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     Spinner spinnerTimeHour;
     Spinner spinnerTimeMinute;
     Spinner spinnerDuration;
+
+    ImageView imageView;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+
+                    imageView.setImageBitmap(bitmap);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -57,8 +94,10 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
         Button mapButton = findViewById(R.id.map_button);
         Button findBobchinButton = findViewById(R.id.button_find_bobchin);
+        Button pictureButton = findViewById(R.id.button_add_picture);
         mapButton.setOnClickListener(this);
         findBobchinButton.setOnClickListener(this);
+        pictureButton.setOnClickListener(this);
 
         spinnerFromAge = findViewById(R.id.spinner_form_age);
         spinnerToAge = findViewById(R.id.spinner_to_age);
@@ -90,6 +129,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         titleEditText = findViewById(R.id.edit_text_title);
         maxPeopleEditText = findViewById(R.id.edit_text_max_people);
         contentEditText = findViewById(R.id.edit_text_content);
+
+        imageView = findViewById(R.id.image_example);
     }
 
     @Override
@@ -127,7 +168,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             duration = spinnerDuration.getSelectedItem().toString();
             maxPeople = maxPeopleEditText.getText().toString();
 
-            if((title != null) && (content != null) && (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0)) {
+            if ((title != null) && (content != null) && (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0)) {
                 BobChin bobChin = (BobChin) getApplicationContext();
                 // 서버 통신
                 try {
@@ -148,13 +189,19 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("모임 생성 실패")
                         .setMessage("장소 좌표나 나이, 참여인원이 0이 아닌지 확인해주세요!")
-                        .setPositiveButton("네", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
+                        .setPositiveButton("네", null)
                         .show();
+            }
+        }
+        else if (view.getId() == R.id.button_add_picture) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(AddMeetingActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            }
+            else {
+                Intent imageIntent = new Intent();
+                imageIntent.setType("image/*");
+                imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(imageIntent, REQUEST_CODE);
             }
         }
     }

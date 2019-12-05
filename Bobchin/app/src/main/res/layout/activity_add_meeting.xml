@@ -215,7 +215,13 @@
                 android:text="사진 추가해줘 (예: 먹을 음식, 장소 등등)"
                 android:textSize="15dp" />
 
+        <ImageView
+                android:id="@+id/image_example"
+                android:layout_width="50dp"
+                android:layout_height="match_parent" />
+
         <Button
+                android:id="@+id/button_add_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="추가"

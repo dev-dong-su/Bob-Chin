@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bobchin.Adapter.MyAdapter;
+import com.example.bobchin.Adapter.MyAdapter1;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.HttpGet;
 import com.example.bobchin.MeetInfo;
@@ -40,7 +41,7 @@ public class Meetings extends Fragment {
     ArrayList<MeetInfo> meetInfoArrayList;
     public RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
-    public MyAdapter myAdapter;
+    public MyAdapter1 myAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -52,9 +53,10 @@ public class Meetings extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        BobChin bobChin = (BobChin) getActivity().getApplicationContext();
+        BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
         meetInfoArrayList = new ArrayList<>();
-        myAdapter = new MyAdapter(meetInfoArrayList);
+        myAdapter = new MyAdapter1(meetInfoArrayList,userInfo.getUserEmail());
         swipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout_1);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

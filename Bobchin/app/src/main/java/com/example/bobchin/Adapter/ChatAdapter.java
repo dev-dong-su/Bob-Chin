@@ -4,6 +4,7 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +18,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         TextView chatitem1;
         TextView chatitem2;
+        ImageView userimage;
+        TextView username;
         String sender;
 
         ChatViewHolder(View view) {
             super(view);
             chatitem1 = view.findViewById(R.id.message1);
             chatitem2=view.findViewById(R.id.message2);
+            username=view.findViewById(R.id.username);
+            userimage=view.findViewById(R.id.userimage);
         }
     }
 
@@ -44,6 +49,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatitem, parent, false);
             v.findViewById(R.id.message1).setBackgroundResource(R.drawable.outbox2);
             v.findViewById(R.id.message2).setVisibility(View.GONE);
+            v.findViewById(R.id.username).setVisibility(View.GONE);
+            v.findViewById(R.id.userimage).setVisibility(View.GONE);
             System.out.println("내꺼");
             break;
 
@@ -64,6 +71,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
         chatViewHolder.chatitem1.setText(messages.get(position).message);
         chatViewHolder.chatitem2.setText(messages.get(position).message);
+        chatViewHolder.username.setText(messages.get(position).Sender);
+        chatViewHolder.userimage.setImageResource(R.drawable.ic_person);
         chatViewHolder.sender = messages.get(position).Sender;
 
     }

@@ -25,7 +25,6 @@ public class FirstAdFragment extends Fragment {
     private int page;
     private ImageView imgAd;
     private Bitmap bitmap;
-    public TextView txtUrl;
 
     public static FirstAdFragment newInstance(int page, String title) {
         FirstAdFragment fragment = new FirstAdFragment();
@@ -47,9 +46,6 @@ public class FirstAdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ad_first, container, false);
         imgAd = view.findViewById(R.id.imgAd);
-        txtUrl = view.findViewById(R.id.textUrl);
-        txtUrl.setText(title);
-
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -10,18 +10,22 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.bobchin.BobChin;
 import com.example.bobchin.MainActivity;
+import com.example.bobchin.Messaging.FirebaseInstanceIDService;
 import com.example.bobchin.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.w3c.dom.Text;
 
@@ -71,22 +75,30 @@ public class Settings extends Fragment {
         authLevel.setText(strAuthLevel);
 
         ImageView userPhoto = v.findViewById(R.id.imageView5);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bitmap = getBitmap(userInfo.getUserPhotoURL());
-                    } catch (Exception e) {
-                    } finally {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                userPhoto.setImageBitmap(getCroppedBitmap(bitmap));
-                            }
-                        });
-                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bitmap = getBitmap(userInfo.getUserPhotoURL());
+                } catch (Exception e) {
+                } finally {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            userPhoto.setImageBitmap(getCroppedBitmap(bitmap));
+                        }
+                    });
                 }
-            }).start();
+            }
+        }).start();
+        userPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("deviceToken",FirebaseInstanceId.getInstance().getToken());
+                Toast.makeText(getContext(), FirebaseInstanceId.getInstance().getToken(),Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 
         Button btnSignout = v.findViewById(R.id.btnsignout);

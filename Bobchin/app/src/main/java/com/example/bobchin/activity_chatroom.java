@@ -102,8 +102,10 @@ public class activity_chatroom extends AppCompatActivity {
         snd_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Sendmessage(userInfo.getUserName(), send_txt.getText().toString(), meetid);
-                send_txt.setText("");
+                if(!send_txt.getText().toString().replace(" ", "").equals("")){
+                    new Sendmessage(userInfo.getUserName(), send_txt.getText().toString(), meetid);
+                    send_txt.setText("");
+                }
             }
 });
 

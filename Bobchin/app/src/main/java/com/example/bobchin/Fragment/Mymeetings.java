@@ -90,29 +90,27 @@ public class Mymeetings extends Fragment {
                     HttpGet httpGet = new HttpGet();
 
                     meetInfoArrayList.clear();
-                    if (result.isEmpty())
+                    if (result.isEmpty()) {
                         result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token=" + userInfo.getUserAccessToken()).get();
+                    }
+                    JSONArray jsonArray = new JSONArray(result);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String[] users = jsonObject.getString("users").split("\\|");
+                        meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime").substring(5,16) + ", " + jsonObject.getString("duration") + "분", (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
-                }
-                finally {
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } finally {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                JSONArray jsonArray = new JSONArray(result);
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    String[] users = jsonObject.getString("users").split("\\|");
-                                    meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
-                                }
-                                mRecyclerView.setAdapter(myAdapter);
-                                swipeRefreshLayout.setRefreshing(false);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            mRecyclerView.setAdapter(myAdapter);
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                     });
                 }

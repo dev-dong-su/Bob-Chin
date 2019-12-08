@@ -1,5 +1,6 @@
 package com.example.bobchin;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            if(resCode == 0 && resCode == 4) {
+            if(resCode == 0 || resCode == 4) {
                 mViewPager.setCurrentItem(1);
                 Meetings meetings = (Meetings)findFragmentByPosition(0);
                 meetings.setResultNull();
@@ -204,7 +205,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    static long pressedTime;
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
+        if (pressedTime == 0) {
+            Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            pressedTime = System.currentTimeMillis();
+        } else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if (seconds > 2000) {
+                Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+                pressedTime = 0;
+            } else {
+                finishAffinity();
+            }
+        }
     }
 }

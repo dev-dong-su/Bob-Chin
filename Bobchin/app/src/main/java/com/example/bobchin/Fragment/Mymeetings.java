@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,12 @@ import com.example.bobchin.BobChin;
 import com.example.bobchin.HttpGet;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +58,9 @@ public class Mymeetings extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         meetInfoArrayList = new ArrayList<>();
-        myAdapter = new MyAdapter(meetInfoArrayList);
+        BobChin bobChin = (BobChin) getActivity().getApplicationContext();
+        BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
+        myAdapter = new MyAdapter(meetInfoArrayList,userInfo.getUserEmail());
         swipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout_2);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

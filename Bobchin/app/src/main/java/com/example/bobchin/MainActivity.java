@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            if(resCode == 0 && resCode == 4) {
+            if(resCode == 0 || resCode == 4) {
                 mViewPager.setCurrentItem(1);
                 Meetings meetings = (Meetings)findFragmentByPosition(0);
                 meetings.setResultNull();

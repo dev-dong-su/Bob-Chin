@@ -43,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -130,17 +130,17 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
 
-    <Button
-            android:id="@+id/enterchat"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:background="#87cefa"
-            android:text="채팅하기"
-            android:layout_marginLeft="50dp"
-            android:textColor="#FFFFFF"
-            android:visibility="gone"
-            android:textSize="18sp" />
+        <Button
+                android:id="@+id/enterchat"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="#87cefa"
+                android:text="채팅하기"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
     </LinearLayout>
 

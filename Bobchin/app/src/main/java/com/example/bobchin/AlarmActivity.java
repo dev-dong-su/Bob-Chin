@@ -110,7 +110,7 @@ public class AlarmActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Refresh();
+                            finish();
                         }
                     });
                 }

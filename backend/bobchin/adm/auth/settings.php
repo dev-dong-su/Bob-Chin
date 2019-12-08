@@ -5,8 +5,8 @@ include("dbconnect.php");
 require_once 'vendor/autoload.php';
 
 // init configuration
-$clientID = '27975566785-f2q3iv25kunp6bl657h2f4o828fc3gc9.apps.googleusercontent.com';
-$clientSecret = 'bSZ7lYKc2FCTwXmW2TqI65fN';
+$clientID = '278850967870-sgc0n7q3pcj3psidv3aqnomimuv15hua.apps.googleusercontent.com';
+$clientSecret = 'HyS5MBI7hxNnMr47WK1siech';
 $redirectUri = 'http://bobchin.cf/adm/auth/rcvcode.php';
   
 // create Client Request to access Google API

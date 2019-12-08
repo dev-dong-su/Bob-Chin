@@ -15,10 +15,11 @@ try{
     $name = $google_account_info->name;
     $id = $google_account_info->id;
 
-    $query = "SELECT users, maxpeople FROM meetings WHERE meetID='$_meetid'";
+    $query = "SELECT users, maxpeople,headuser FROM meetings WHERE meetID='$_meetid'";
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_array($result);
 
+    $headuser= $row['headuser'];
     $users = $row['users'];
     $maxpeople = $row['maxpeople'];
     $usercnt = substr_count($users,'|')-1;
@@ -31,6 +32,7 @@ try{
         echo 2; exit;
     }
     else{
+        PostMessage('밥친 알림','새로운 밥친 '.$name.'이 참가했습니다!',$headuser,$_meetid,$con);
         $users = $users."$email|";
         $query = "UPDATE meetings SET users='$users' WHERE meetID='$_meetid'";
         mysqli_query($con, $query);

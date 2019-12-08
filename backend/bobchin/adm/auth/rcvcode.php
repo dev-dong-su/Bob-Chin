@@ -31,10 +31,6 @@ if (isset($_GET['code'])) {
 		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',photo='$picture',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
-    else{
-		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','','$token[access_token]','$_datetime')";
-    	mysqli_query($con, $query);
-    }
     echo "<script>window.location='../index.php';</script>";
 
 

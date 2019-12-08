@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //EnterMeet 처리
-    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
+    public Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
 
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent data){

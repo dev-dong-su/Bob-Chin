@@ -49,7 +49,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         AlarmViewHolder alarmViewHolder = (AlarmViewHolder) holder;
         alarmViewHolder.title.setText(AlarmInfoArrayList.get(position).title);
-        alarmViewHolder.alarmContent.setText("해당 모임이 " + AlarmInfoArrayList.get(position).time + "에 시작합니다.");
+        alarmViewHolder.alarmContent.setText(AlarmInfoArrayList.get(position).body);
         alarmViewHolder.titleImage.setImageResource(AlarmInfoArrayList.get(position).drawableId);
     }
 

@@ -58,7 +58,12 @@ public class FirstAdFragment extends Fragment {
                 }
                 catch(Exception e){ }
                 finally{
-                    imgAd.setImageBitmap(bitmap);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imgAd.setImageBitmap(bitmap);
+                        }
+                    });
                 }
             }
         }).start();

@@ -54,6 +54,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
     ImageView imageView;
 
+    Bitmap bitmap;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -62,7 +64,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(data.getData());
 
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    bitmap = BitmapFactory.decodeStream(inputStream);
                     inputStream.close();
 
                     imageView.setImageBitmap(bitmap);
@@ -168,13 +170,15 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             duration = spinnerDuration.getSelectedItem().toString();
             maxPeople = maxPeopleEditText.getText().toString();
 
-            if ((title != null) && (content != null) && (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0)) {
+            if ((Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0) && (bitmap != null)) {
                 BobChin bobChin = (BobChin) getApplicationContext();
                 // 서버 통신
                 try {
                     HttpPost httpPost = new HttpPost();
                     String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople).get();
                     Log.d("AddMeetingActivity", "result : " + result);
+
+                    // 이미지 전송 코드 예정
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -184,11 +188,43 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 finish();
             }
+            else if (Integer.parseInt(ageMax) > Integer.parseInt(ageMin)) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("모임 생성 실패")
+                        .setMessage("나이를 다시 설정해주세요!(연령대가 바뀌었는지 확인)")
+                        .setPositiveButton("네", null)
+                        .show();
+            }
+            else if ((longitude == 0) || (latitude == 0)) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("모임 생성 실패")
+                        .setMessage("모임 위치를 지정해주세요!")
+                        .setPositiveButton("네", null)
+                        .show();
+            }
+            else if (Integer.parseInt(maxPeople) <= 0) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("모임 생성 실패")
+                        .setMessage("모임 사람의 인원을 설정해주세요!")
+                        .setPositiveButton("네", null)
+                        .show();
+            }
+            else if (bitmap == null) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("모임 생성 실패")
+                        .setMessage("모임 사진을 넣어주세요!")
+                        .setPositiveButton("네", null)
+                        .show();
+            }
             else {
                 new AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("모임 생성 실패")
-                        .setMessage("장소 좌표나 나이, 참여인원이 0이 아닌지 확인해주세요!")
+                        .setMessage("알 수 없는 문제가 발생했습니다.")
                         .setPositiveButton("네", null)
                         .show();
             }

@@ -1,6 +1,5 @@
 <?
 include_once('../auth/settings.php');
-$_meetid = $_GET['meetid'];
 if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
 $client->setAccessToken($last_accesstoken);
 if($expired) {
@@ -14,14 +13,8 @@ try{
     $name = $google_account_info->name;
     $id = $google_account_info->id;
 
-    $query = "SELECT userid,message,datetime FROM chat WHERE meetID='$_meetid'";
+    $query = "DELETE FROM pushmsg WHERE touser='$email'";
     $result = mysqli_query($con, $query);
-
-    for($i=0;$i<mysqli_num_rows($result);$i++){
-        $row=mysqli_fetch_assoc($result);
-        $returnJSON[$i]=$row;
-    }
-    echo json_encode($returnJSON);
 }
 catch(Exception $e){
     echo "Unauthorized";

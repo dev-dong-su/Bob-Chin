@@ -1,10 +1,7 @@
 <?
 include_once('../auth/settings.php');
 
-$_meetid = $_POST['meetid'];
-$_message = $_POST['message'];
-$_datetime = date("Y-m-d H:i:s", time());
-
+$_meetid=$_POST['meetid'];
 if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
 $client->setAccessToken($last_accesstoken);
 if($expired) {
@@ -17,13 +14,17 @@ try{
     $email = $google_account_info->email;
     $name = $google_account_info->name;
     $id = $google_account_info->id;
-    
-    $query = "INSERT INTO chat VALUES('','$_meetid','$email','$_message','$_datetime')";
-    $result = mysqli_query($con, $query);
+
+    $query= "SELECT users FROM meetings WHERE meetID='$_meetid'";
+    $result = mysqli_query($con,$query);
+    $users = mysqli_fetch_assoc($result)['users'];
+    $users = explode("|",$users);
+    for($i=1;$i<count($users);$i++){
+        $query = "INSERT INTO pushmsg VALUES('','밥친 알림','새 채팅이 도착했습니다!',$users[$i],$_meetid,$con)";
+    }
 }
 catch(Exception $e){
     echo "Unauthorized";
     exit;
 }
-    
 ?>

@@ -21,11 +21,13 @@ import com.example.bobchin.MeetInfo;
 import com.example.bobchin.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 
 public class Mymeetings extends Fragment {
@@ -38,6 +40,7 @@ public class Mymeetings extends Fragment {
     public RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     public MyAdapter myAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class Mymeetings extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         meetInfoArrayList = new ArrayList<>();
         myAdapter = new MyAdapter(meetInfoArrayList);
-        SwipeRefreshLayout swipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout_2);
+        swipeRefreshLayout = v.findViewById(R.id.swipe_refresh_layout_2);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,27 +70,45 @@ public class Mymeetings extends Fragment {
     }
 
     public void Refresh(){
-        try{
-            BobChin bobChin = (BobChin)getActivity().getApplicationContext();
-            BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
-            HttpGet httpGet = new HttpGet();
+        swipeRefreshLayout.setRefreshing(true);
+        BobChin bobChin = (BobChin) getActivity().getApplicationContext();
+        BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpGet httpGet = new HttpGet();
 
-            meetInfoArrayList.clear();
-            if(result.isEmpty())
-                result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token="+userInfo.getUserAccessToken()).get();
-            System.out.println(result);
-            JSONArray jsonArray = new JSONArray(result);
-            System.out.println(jsonArray.length());
-            for(int i=0;i<jsonArray.length();i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String [] users = jsonObject.getString("users").split("\\|");
-                meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("starttime")+", "+jsonObject.getString("duration"),(users.length-1)+"/"+jsonObject.getString("maxpeople"),"#"+jsonObject.getString("agemin")+"~"+jsonObject.getString("agemax")+"세만",jsonObject.getString("meetID"),jsonObject.getString("meetmsg"),users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                    meetInfoArrayList.clear();
+                    if (result.isEmpty())
+                        result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token=" + userInfo.getUserAccessToken()).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONArray jsonArray = new JSONArray(result);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    String[] users = jsonObject.getString("users").split("\\|");
+                                    meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                                }
+
+                                mRecyclerView.setAdapter(myAdapter);
+                                swipeRefreshLayout.setRefreshing(false);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
-
-            mRecyclerView.setAdapter(myAdapter);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        }).start();
     }
 }
 

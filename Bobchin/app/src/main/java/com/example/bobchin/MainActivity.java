@@ -1,10 +1,9 @@
 package com.example.bobchin;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -22,13 +21,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.bobchin.Adapter.TabPagerAdapter;
 import com.example.bobchin.Fragment.FirstAdFragment;
-import com.example.bobchin.Fragment.SecondAdFragment;
-import com.example.bobchin.Fragment.ThirdAdFragment;
 
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.Fragment.Mymeetings;
 
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.concurrent.ExecutionException;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private TabPagerAdapter mContentPagerAdapter;
 
     private FragmentPagerAdapter adapterViewPager;
+
+    public Handler globalHandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,38 +85,47 @@ public class MainActivity extends AppCompatActivity {
       
         //ad 관련
         ViewPager adPager = (ViewPager) findViewById(R.id.view_pager_ad);
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(),(BobChin) getApplication());
         adPager.setAdapter(adapterViewPager);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(adPager);
+
+        globalHandler = new Handler();
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 3;
+        private static JSONArray arrNotice;
 
-        public MyPagerAdapter(FragmentManager fragmentManager) {
+        MyPagerAdapter(FragmentManager fragmentManager,BobChin bobChin) {
             super(fragmentManager);
+            try {
+                HttpGet httpGet = new HttpGet();
+                String notice = httpGet.execute("http://bobchin.cf/api/getnotice.php?token="+bobChin.getUserInfoObj().getUserAccessToken()).get();
+                arrNotice = new JSONArray(notice);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return FirstAdFragment.newInstance(0, "Page # 1");
-                case 1:
-                    return SecondAdFragment.newInstance(1, "Page # 2");
-                case 2:
-                    return ThirdAdFragment.newInstance(2, "Page # 3");
-                default:
-                    return null;
+            try {
+                return FirstAdFragment.newInstance(position, arrNotice.getJSONObject(position).getString("url") );
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            return null;
         }
 
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return arrNotice.length();
         }
 
         @Override

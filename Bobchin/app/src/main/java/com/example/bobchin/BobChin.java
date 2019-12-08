@@ -2,17 +2,16 @@ package com.example.bobchin;
 
 import android.app.Application;
 
+import java.util.ArrayList;
+
 // 전역변수 관리용 클래스
 public class BobChin extends Application {
     private UserInfo userInfoObj = new UserInfo();
-
     public UserInfo getUserInfoObj() {
         return userInfoObj;
     }
 
     public void setUserInfoObj(UserInfo userInfoObj) { this.userInfoObj = userInfoObj; }
-
-
 
     public class UserInfo {
         private String userEmail, userName, userAccessToken, userAuthLevel, userPhotoURL, userId;

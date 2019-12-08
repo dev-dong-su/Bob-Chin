@@ -38,28 +38,20 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
         }
     }
 
-
-    /**
-     * remoteMessage 메세지 안애 getData와 getNotification이 있습니다.
-     * 이부분은 차후 테스트 날릴때 설명 드리겠습니다.
-     * **/
     private void sendNotification(RemoteMessage remoteMessage) {
 
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
 
-        /**
-         * 오레오 버전부터는 Notification Channel이 없으면 푸시가 생성되지 않는 현상이 있습니다.
-         * **/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            String channel = "채널";
-            String channel_nm = "채널명";
+            String channel = "BobChin";
+            String channel_nm = "BobChinChannel";
 
             NotificationManager notichannel = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel channelMessage = new NotificationChannel(channel, channel_nm,
                     android.app.NotificationManager.IMPORTANCE_DEFAULT);
-            channelMessage.setDescription("채널에 대한 설명.");
+            channelMessage.setDescription(channel_nm);
             channelMessage.enableLights(true);
             channelMessage.enableVibration(true);
             channelMessage.setShowBadge(false);

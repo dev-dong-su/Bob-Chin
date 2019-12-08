@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class activity_chatroom extends AppCompatActivity {
     TextView name1;
@@ -104,6 +105,8 @@ public class activity_chatroom extends AppCompatActivity {
             public void onClick(View v) {
                 if(!send_txt.getText().toString().replace(" ", "").equals("")){
                     new Sendmessage(userInfo.getUserName(), send_txt.getText().toString(), meetid);
+                    HttpPost httpPost = new HttpPost();
+                    httpPost.execute("http://bobchin.cf/api/chatpush.php", "token=" + userInfo.getUserAccessToken() + "&meetid=" + meetid);
                     send_txt.setText("");
                 }
             }

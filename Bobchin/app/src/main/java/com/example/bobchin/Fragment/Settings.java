@@ -81,7 +81,7 @@ public class Settings extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                userPhoto.setImageBitmap(bitmap);
+                                userPhoto.setImageBitmap(getCroppedBitmap(bitmap));
                             }
                         });
                     }

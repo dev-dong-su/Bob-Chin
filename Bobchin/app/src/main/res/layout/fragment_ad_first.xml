@@ -7,14 +7,7 @@
     <ImageView
             android:id="@+id/imgAd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/ad_example" />
-
-    <TextView
-            android:id="@+id/textUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="첫번째!" />
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            if(resCode == 0) {
+            if(resCode == 0 && resCode == 4) {
                 mViewPager.setCurrentItem(1);
                 Meetings meetings = (Meetings)findFragmentByPosition(0);
                 meetings.setResultNull();
@@ -184,6 +185,21 @@ public class MainActivity extends AppCompatActivity {
                 Mymeetings mymeetings = (Mymeetings)findFragmentByPosition(1);
                 mymeetings.setResultNull();
                 mymeetings.Refresh();
+            }
+            if(resCode == 0) {
+                String msg = "";
+                switch (resCode) {
+                    case 0:
+                        msg = "밥친이 되었습니다";
+                        break;
+                    case 1:
+                        msg = "밥친이 이미 다 모였습니다";
+                        break;
+                    case 2:
+                        msg = "이미 밥친입니다";
+                        break;
+                }
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         }
     }

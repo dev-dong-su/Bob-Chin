@@ -22,6 +22,9 @@ import com.example.bobchin.Fragment.Mymeetings;
 import java.util.concurrent.ExecutionException;
 
 public class select_meeting extends AppCompatActivity {
+
+    String result;
+    String msg = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,7 @@ public class select_meeting extends AppCompatActivity {
         Intent intent = getIntent();
         MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
         boolean entered = meetInfo.isUser;
-      
+
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
         address.setText(meetInfo.address);
@@ -46,7 +49,7 @@ public class select_meeting extends AppCompatActivity {
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
 
-      
+
         if(entered){
             btnEnterMeet.setText("밥친 취소");
             btnEnterChat.setVisibility(View.VISIBLE);
@@ -66,41 +69,34 @@ public class select_meeting extends AppCompatActivity {
         btnEnterMeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    BobChin bobchin = (BobChin)getApplication();
-                    HttpPost httpPost = new HttpPost();
-                    String msg = "";
-                    if(entered){
-                        httpPost.execute("http://bobchin.cf/api/outmeet.php", "token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid);
-                        meetInfo.isUser=false;
-                        msg = "밥친이 취소되었습니다.";
+                BobChin bobchin = (BobChin) getApplication();
+                HttpPost httpPost = new HttpPost();
+                msg = "";
+                if (entered) {
+                    httpPost.execute("http://bobchin.cf/api/outmeet.php", "token=" + bobchin.getUserInfoObj().getUserAccessToken() + "&meetid=" + meetInfo.meetid);
+                    meetInfo.isUser = false;
+                    msg = "밥친이 취소되었습니다.";
 
-                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
-                        setResult(0);
-                        finish();
-                    }
-                    else {
-                        String result = httpPost.execute("http://bobchin.cf/api/entermeet.php","token="+bobchin.getUserInfoObj().getUserAccessToken()+"&meetid="+meetInfo.meetid).get();
-                        switch (result){
-                            case "0":
-                                meetInfo.isUser=true;
-                                msg = "밥친이 되었습니다";
-                                break;
-                            case "1":
-                                msg = "밥친이 이미 다 모였습니다";
-                                break;
-                            case "2":
-                                msg = "이미 밥친입니다";
-                                break;
+                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                    setResult(4);
+                    finish();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                result = httpPost.execute("http://bobchin.cf/api/entermeet.php", "token=" + bobchin.getUserInfoObj().getUserAccessToken() + "&meetid=" + meetInfo.meetid).get();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } finally {
+                                setResult(Integer.parseInt(result));
+                                finish();
+                            }
                         }
-                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
-                        setResult(Integer.parseInt(result));
-                        finish();
-                    }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    }).start();
+
                 }
             }
         });

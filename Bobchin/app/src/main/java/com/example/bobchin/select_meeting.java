@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.Networking.HttpPost;
 
 import java.util.concurrent.ExecutionException;
@@ -33,6 +35,7 @@ public class select_meeting extends AppCompatActivity {
         TextView meetmsg = findViewById(R.id.meetmsg);
         Button btnEnterMeet = findViewById(R.id.entermeet);
         Button btnEnterChat = findViewById(R.id.enterchat);
+        ImageView imgMeetPhoto = findViewById(R.id.MeetPhoto);
 
         Intent intent = getIntent();
         MeetInfo_Serialized meetInfo = (MeetInfo_Serialized) intent.getSerializableExtra("class");
@@ -44,7 +47,9 @@ public class select_meeting extends AppCompatActivity {
         time.setText(meetInfo.time);
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
-
+        Glide.with(this)
+                .load(meetInfo.foodimageUrl)
+                .into(imgMeetPhoto);
 
         if(entered){
             btnEnterMeet.setText("밥친 취소");

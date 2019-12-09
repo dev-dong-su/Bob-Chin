@@ -32,6 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import kotlin.jvm.internal.Ref;
+
 
 public class Settings extends Fragment {
 
@@ -75,11 +77,6 @@ public class Settings extends Fragment {
         authLevel.setText(strAuthLevel);
 
         userPhoto = v.findViewById(R.id.imageView5);
-        Glide.with(getActivity())
-                .load(userInfo.getUserPhotoURL())
-                .placeholder(R.drawable.ic_person)
-                .apply(new RequestOptions().circleCrop())
-                .into(userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +84,7 @@ public class Settings extends Fragment {
                 ((Activity) v.getContext()).startActivityForResult(intent, 3);
             }
         });
+        RefreshProfile();
 
         Button btnSignout = v.findViewById(R.id.btnsignout);
         btnSignout.setOnClickListener((view)->{
@@ -121,22 +119,11 @@ public class Settings extends Fragment {
     }
 
     public void RefreshProfile(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = getBitmap(userInfo.getUserPhotoURL());
-                } catch (Exception e) {
-                } finally {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            userPhoto.setImageBitmap(getCroppedBitmap(bitmap));
-                        }
-                    });
-                }
-            }
-        }).start();
+        Glide.with(getActivity())
+                .load(userInfo.getUserPhotoURL())
+                .placeholder(R.drawable.ic_person)
+                .apply(new RequestOptions().circleCrop())
+                .into(userPhoto);
     }
 }
 

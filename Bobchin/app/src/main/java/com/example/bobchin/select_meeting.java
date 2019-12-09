@@ -36,7 +36,7 @@ public class select_meeting extends AppCompatActivity {
         Button btnEnterChat = findViewById(R.id.enterchat);
 
         Intent intent = getIntent();
-        MeetInfo meetInfo = (MeetInfo) intent.getSerializableExtra("class");
+        MeetInfo_Serialized meetInfo = (MeetInfo_Serialized) intent.getSerializableExtra("class");
         boolean entered = meetInfo.isUser;
       
         title.setText(meetInfo.title);

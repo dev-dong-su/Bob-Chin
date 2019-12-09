@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
 import com.example.bobchin.activity_chatroom;
 import com.example.bobchin.select_meeting;
@@ -42,7 +43,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView time;
         TextView person;
         TextView age;
-        MeetInfo data;
+        MeetInfo_Serialized data;
         TextView count;
         ImageView foodimage;
 
@@ -81,8 +82,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
-        myViewHolder.data = MeetInfoArrayList.get(position);
+        //myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
+        myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
         final ArrayList<String> total=new ArrayList<>();
         final ArrayList<String> read=new ArrayList<>();

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
 import com.example.bobchin.select_meeting;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +30,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView time;
         TextView person;
         TextView age;
-        MeetInfo data;
+        MeetInfo_Serialized data;
         TextView count;
         ImageView foodimage;
 
@@ -68,8 +69,8 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
-        myViewHolder.data = MeetInfoArrayList.get(position);
+        //myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
+        myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

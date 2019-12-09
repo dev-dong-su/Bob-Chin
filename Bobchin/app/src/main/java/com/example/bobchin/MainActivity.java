@@ -1,6 +1,5 @@
 package com.example.bobchin;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +26,8 @@ import com.example.bobchin.Fragment.FirstAdFragment;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.Fragment.Mymeetings;
 
+import com.example.bobchin.Fragment.Settings;
+import com.example.bobchin.Networking.HttpGet;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-      
+
         //ad 관련
         ViewPager adPager = (ViewPager) findViewById(R.id.view_pager_ad);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(),(BobChin) getApplication());
@@ -178,29 +179,36 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            if(resCode == 0 || resCode == 4) {
+            String msg = "";
+            switch (resCode) {
+                case 0:
+                    msg = "밥친이 되었습니다";
+                    break;
+                case 1:
+                    msg = "밥친이 이미 다 모였습니다";
+                    break;
+                case 2:
+                    msg = "이미 밥친입니다";
+                    break;
+            }
+            if (0 <= resCode && resCode <= 3) {
                 mViewPager.setCurrentItem(1);
-                Meetings meetings = (Meetings)findFragmentByPosition(0);
+                Meetings meetings = (Meetings) findFragmentByPosition(0);
                 meetings.setResultNull();
                 meetings.Refresh();
-                Mymeetings mymeetings = (Mymeetings)findFragmentByPosition(1);
+                Mymeetings mymeetings = (Mymeetings) findFragmentByPosition(1);
                 mymeetings.setResultNull();
                 mymeetings.Refresh();
-            }
-            if(resCode == 0) {
-                String msg = "";
-                switch (resCode) {
-                    case 0:
-                        msg = "밥친이 되었습니다";
-                        break;
-                    case 1:
-                        msg = "밥친이 이미 다 모였습니다";
-                        break;
-                    case 2:
-                        msg = "이미 밥친입니다";
-                        break;
-                }
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(reqCode == 3) {
+            if(resCode == 0) {
+                String url = data.getStringExtra("url");
+                //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                ((BobChin) getApplication()).getUserInfoObj().setUserPhotoURL(url);
+                Settings settings = (Settings) findFragmentByPosition(2);
+                settings.setMyProfile(url);
             }
         }
     }

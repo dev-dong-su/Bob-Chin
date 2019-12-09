@@ -1,15 +1,11 @@
 package com.example.bobchin;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.TextValueSanitizer;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bobchin.Fragment.Mymeetings;
+import com.example.bobchin.Networking.HttpPost;
 
 import java.util.concurrent.ExecutionException;
 
@@ -76,9 +72,8 @@ public class select_meeting extends AppCompatActivity {
                     httpPost.execute("http://bobchin.cf/api/outmeet.php", "token=" + bobchin.getUserInfoObj().getUserAccessToken() + "&meetid=" + meetInfo.meetid);
                     meetInfo.isUser = false;
                     msg = "밥친이 취소되었습니다.";
-
                     Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                    setResult(4);
+                    setResult(3);
                     finish();
                 } else {
                     new Thread(new Runnable() {

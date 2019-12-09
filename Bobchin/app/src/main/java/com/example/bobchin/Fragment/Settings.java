@@ -1,5 +1,7 @@
 package com.example.bobchin.Fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -7,39 +9,35 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.bobchin.BobChin;
-import com.example.bobchin.MainActivity;
-import com.example.bobchin.Messaging.FirebaseInstanceIDService;
+import com.example.bobchin.ImagePicker;
+import com.example.bobchin.Networking.HttpPost;
 import com.example.bobchin.R;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 
 public class Settings extends Fragment {
 
-    static Bitmap bitmap;
+    Bitmap bitmap;
     Handler handler;
+    BobChin.UserInfo userInfo;
+    ImageView userPhoto;
+
     public Settings() {
         // Required empty public constructor
     }
@@ -51,7 +49,7 @@ public class Settings extends Fragment {
         handler = new Handler();
 
         BobChin bobChin = (BobChin)getActivity().getApplicationContext();
-        BobChin.UserInfo userInfo = bobChin.getUserInfoObj();
+        userInfo = bobChin.getUserInfoObj();
 
         TextView name = v.findViewById(R.id.name);
         name.setText(userInfo.getUserName());
@@ -74,7 +72,48 @@ public class Settings extends Fragment {
         }
         authLevel.setText(strAuthLevel);
 
-        ImageView userPhoto = v.findViewById(R.id.imageView5);
+        userPhoto = v.findViewById(R.id.imageView5);
+        userPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),ImagePicker.class);
+                ((Activity) v.getContext()).startActivityForResult(intent, 3);
+            }
+        });
+        RefreshProfile();
+
+        Button btnSignout = v.findViewById(R.id.btnsignout);
+        btnSignout.setOnClickListener((view)->{
+            getActivity().finish();
+        });
+        return v;
+    }
+
+    public void setMyProfile(String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpPost httpPost = new HttpPost();
+                    httpPost.execute("http://bobchin.cf/api/setprofile.php", "token=" + userInfo.getUserAccessToken() + "&url=" + url).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            RefreshProfile();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    public void RefreshProfile(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -91,21 +130,6 @@ public class Settings extends Fragment {
                 }
             }
         }).start();
-        userPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("deviceToken",FirebaseInstanceId.getInstance().getToken());
-                Toast.makeText(getContext(), FirebaseInstanceId.getInstance().getToken(),Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-
-        Button btnSignout = v.findViewById(R.id.btnsignout);
-        btnSignout.setOnClickListener((view)->{
-            getActivity().finish();
-        });
-        return v;
     }
 
     private Bitmap getBitmap(String url) {

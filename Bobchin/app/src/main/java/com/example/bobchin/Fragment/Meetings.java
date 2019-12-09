@@ -1,33 +1,25 @@
 package com.example.bobchin.Fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.bobchin.Adapter.MyAdapter;
 import com.example.bobchin.Adapter.MyAdapter1;
 import com.example.bobchin.BobChin;
-import com.example.bobchin.HttpGet;
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.Networking.HttpGet;
 import com.example.bobchin.R;
-import com.example.bobchin.select_meeting;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 

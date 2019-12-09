@@ -1,12 +1,13 @@
 <?php
 ini_set('include_path', '/volume2/web/bobchin/auth/google-api-php-client'); //set google api path
 include("dbconnect.php");
+include("../api/messaging/postmessage.php");
 
 require_once 'vendor/autoload.php';
 
 // init configuration
-$clientID = '27975566785-f2q3iv25kunp6bl657h2f4o828fc3gc9.apps.googleusercontent.com';
-$clientSecret = 'bSZ7lYKc2FCTwXmW2TqI65fN';
+$clientID = '278850967870-sgc0n7q3pcj3psidv3aqnomimuv15hua.apps.googleusercontent.com';
+$clientSecret = 'HyS5MBI7hxNnMr47WK1siech';
 $redirectUri = 'http://bobchin.cf/auth/rcvcode.php';
   
 // create Client Request to access Google API

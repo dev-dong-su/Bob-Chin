@@ -14,9 +14,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bobchin.Adapter.MyAdapter1;
 import com.example.bobchin.BobChin;
-import com.example.bobchin.HttpGet;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.MeetInfo_Serialized;
+import com.example.bobchin.Networking.HttpGet;
 import com.example.bobchin.R;
 
 import org.json.JSONArray;
@@ -83,14 +83,15 @@ public class Meetings extends Fragment {
                         HttpGet httpGet = new HttpGet();
 
                         meetInfoArrayList.clear();
-                        if (result.isEmpty())
+                        if (result.isEmpty()) {
                             result = httpGet.execute("http://bobchin.cf/api/getbbs.php?token=" + userInfo.getUserAccessToken()).get();
-
+                        }
                         JSONArray jsonArray = new JSONArray(result);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String[] users = jsonObject.getString("users").split("\\|");
                             meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -104,6 +105,7 @@ public class Meetings extends Fragment {
                             public void run() {
                                 mRecyclerView.setAdapter(myAdapter);
                                 swipeRefreshLayout.setRefreshing(false);
+
                             }
                         });
                     }

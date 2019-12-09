@@ -1,4 +1,4 @@
-package com.example.bobchin;
+package com.example.bobchin.Networking;
 
 import android.os.AsyncTask;
 import android.util.Log;

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -25,6 +26,8 @@ import com.example.bobchin.Fragment.FirstAdFragment;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.Fragment.Mymeetings;
 
+import com.example.bobchin.Fragment.Settings;
+import com.example.bobchin.Networking.HttpGet;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-      
+
         //ad 관련
         ViewPager adPager = (ViewPager) findViewById(R.id.view_pager_ad);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(),(BobChin) getApplication());
@@ -171,20 +174,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //EnterMeet 처리
-    private Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
+    public Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
 
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         if(reqCode == 1) {
-            if(resCode == 0) {
+            String msg = "";
+            switch (resCode) {
+                case 0:
+                    msg = "밥친이 되었습니다";
+                    break;
+                case 1:
+                    msg = "밥친이 이미 다 모였습니다";
+                    break;
+                case 2:
+                    msg = "이미 밥친입니다";
+                    break;
+            }
+            if (0 <= resCode && resCode <= 3) {
                 mViewPager.setCurrentItem(1);
-                Meetings meetings = (Meetings)findFragmentByPosition(0);
+                Meetings meetings = (Meetings) findFragmentByPosition(0);
                 meetings.setResultNull();
                 meetings.Refresh();
-                Mymeetings mymeetings = (Mymeetings)findFragmentByPosition(1);
+                Mymeetings mymeetings = (Mymeetings) findFragmentByPosition(1);
                 mymeetings.setResultNull();
                 mymeetings.Refresh();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(reqCode == 3) {
+            if(resCode == 0) {
+                String url = data.getStringExtra("url");
+                //Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                ((BobChin) getApplication()).getUserInfoObj().setUserPhotoURL(url);
+                Settings settings = (Settings) findFragmentByPosition(2);
+                settings.setMyProfile(url);
+            }
+        }
+    }
+
+    static long pressedTime;
+    @Override
+    public void onBackPressed() {
+        if (pressedTime == 0) {
+            Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            pressedTime = System.currentTimeMillis();
+        } else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if (seconds > 2000) {
+                Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+                pressedTime = 0;
+            } else {
+                finishAffinity();
             }
         }
     }

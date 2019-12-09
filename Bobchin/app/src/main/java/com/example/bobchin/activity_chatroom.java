@@ -17,17 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bobchin.Adapter.ChatAdapter;
+import com.example.bobchin.Networking.HttpPost;
 import com.example.bobchin.function.Sendmessage;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class activity_chatroom extends AppCompatActivity {
     TextView name1;
@@ -103,6 +104,8 @@ public class activity_chatroom extends AppCompatActivity {
             public void onClick(View v) {
                 if(!send_txt.getText().toString().replace(" ", "").equals("")){
                     new Sendmessage(userInfo.getUserName(), send_txt.getText().toString(), meetid);
+                    HttpPost httpPost = new HttpPost();
+                    httpPost.execute("http://bobchin.cf/api/chatpush.php", "token=" + userInfo.getUserAccessToken() + "&meetid=" + meetid);
                     send_txt.setText("");
                 }
             }

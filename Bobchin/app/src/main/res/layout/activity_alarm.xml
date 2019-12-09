@@ -6,11 +6,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".AlarmActivity">
-
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_alarm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

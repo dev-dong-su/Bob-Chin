@@ -1,5 +1,6 @@
 package com.example.bobchin.Fragment;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,9 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+
 import com.example.bobchin.Adapter.MyAdapter;
 import com.example.bobchin.BobChin;
-import com.example.bobchin.HttpGet;
+import com.example.bobchin.Networking.HttpGet;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
@@ -82,8 +88,9 @@ public class Mymeetings extends Fragment {
                     HttpGet httpGet = new HttpGet();
 
                     meetInfoArrayList.clear();
-                    if (result.isEmpty())
+                    if (result.isEmpty()) {
                         result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token=" + userInfo.getUserAccessToken()).get();
+                    }
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);

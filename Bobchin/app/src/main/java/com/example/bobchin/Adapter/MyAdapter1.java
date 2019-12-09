@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView age;
         MeetInfo data;
         TextView count;
+        ImageView foodimage;
 
         MyViewHolder(View view){
             super(view);
@@ -39,6 +41,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             person = view.findViewById(R.id.meet_person);
             age=view.findViewById(R.id.age);
             count=view.findViewById(R.id.seencount);
+            foodimage=view.findViewById(R.id.foodimage);
         }
     }
 
@@ -65,6 +68,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
+        myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
         myViewHolder.data = MeetInfoArrayList.get(position);
 
 
@@ -84,7 +88,6 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     public int getItemCount() {
         return MeetInfoArrayList.size();
     }
-
     public MeetInfo getNthItem(int i){
         return MeetInfoArrayList.get(i);
     }

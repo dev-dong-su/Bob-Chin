@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView age;
         MeetInfo data;
         TextView count;
+        ImageView foodimage;
 
         MyViewHolder(View view){
             super(view);
+            foodimage=view.findViewById(R.id.foodimage);
             title = view.findViewById(R.id.meeting_title);
             address = view.findViewById(R.id.address);
             time = view.findViewById(R.id.meet_time);
@@ -78,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
+        myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
         myViewHolder.data = MeetInfoArrayList.get(position);
 
         final ArrayList<String> total=new ArrayList<>();

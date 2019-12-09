@@ -66,7 +66,6 @@ public class activity_chatroom extends AppCompatActivity {
                 String key = dataSnapshot.getKey();
                 if(!dataSnapshot.child("readuser").toString().contains(userInfo.getUserEmail()))
                 {
-                    Log.d("ㅇㅇ",userInfo.getUserEmail());
                     String readkey= FirebaseDatabase.getInstance().getReference().child("messages/"+meetid+"/"+key+"/readuser").push().getKey();
                     FirebaseDatabase.getInstance().getReference().child("messages/"+meetid+"/"+key+"/readuser/"+readkey+"/email").setValue(userInfo.getUserEmail());
                 }

@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
 import com.example.bobchin.select_meeting;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +31,9 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView time;
         TextView person;
         TextView age;
-        MeetInfo data;
+        MeetInfo_Serialized data;
         TextView count;
+        ImageView foodimage;
 
         MyViewHolder(View view){
             super(view);
@@ -39,6 +43,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
             person = view.findViewById(R.id.meet_person);
             age=view.findViewById(R.id.age);
             count=view.findViewById(R.id.seencount);
+            foodimage=view.findViewById(R.id.foodimage);
         }
     }
 
@@ -65,13 +70,16 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        myViewHolder.data = MeetInfoArrayList.get(position);
+        Glide.with(holder.itemView.getContext())
+                .load(MeetInfoArrayList.get(position).foodimageUrl)
+                .placeholder(R.drawable.bread)
+                .into(myViewHolder.foodimage);
+        myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(v.getContext(),myViewHolder.data.meetid,Toast.LENGTH_LONG).show();
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(v.getContext(), select_meeting.class);
                         intent.putExtra("class", myViewHolder.data);
@@ -84,7 +92,6 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     public int getItemCount() {
         return MeetInfoArrayList.size();
     }
-
     public MeetInfo getNthItem(int i){
         return MeetInfoArrayList.get(i);
     }

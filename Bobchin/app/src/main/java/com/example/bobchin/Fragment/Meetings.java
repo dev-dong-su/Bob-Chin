@@ -1,5 +1,7 @@
 package com.example.bobchin.Fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.bobchin.Adapter.MyAdapter1;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.Networking.HttpGet;
 import com.example.bobchin.R;
 
@@ -20,6 +23,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -84,7 +90,8 @@ public class Meetings extends Fragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String[] users = jsonObject.getString("users").split("\\|");
-                            meetInfoArrayList.add(new MeetInfo(jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime").substring(5,16) + ", " + jsonObject.getString("duration") + "분", (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                            meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -96,8 +103,9 @@ public class Meetings extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                    mRecyclerView.setAdapter(myAdapter);
-                                    swipeRefreshLayout.setRefreshing(false);
+                                mRecyclerView.setAdapter(myAdapter);
+                                swipeRefreshLayout.setRefreshing(false);
+
                             }
                         });
                     }

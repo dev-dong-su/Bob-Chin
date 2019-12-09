@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.ImagePicker;
 import com.example.bobchin.Networking.HttpPost;
@@ -73,6 +75,11 @@ public class Settings extends Fragment {
         authLevel.setText(strAuthLevel);
 
         userPhoto = v.findViewById(R.id.imageView5);
+        Glide.with(getActivity())
+                .load(userInfo.getUserPhotoURL())
+                .placeholder(R.drawable.ic_person)
+                .apply(new RequestOptions().circleCrop())
+                .into(userPhoto);
         userPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +87,6 @@ public class Settings extends Fragment {
                 ((Activity) v.getContext()).startActivityForResult(intent, 3);
             }
         });
-        RefreshProfile();
 
         Button btnSignout = v.findViewById(R.id.btnsignout);
         btnSignout.setOnClickListener((view)->{
@@ -88,6 +94,7 @@ public class Settings extends Fragment {
         });
         return v;
     }
+
 
     public void setMyProfile(String url){
         new Thread(new Runnable() {
@@ -130,48 +137,6 @@ public class Settings extends Fragment {
                 }
             }
         }).start();
-    }
-
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try{
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            is = connection.getInputStream();
-            retBitmap = BitmapFactory.decodeStream(is);
-        }
-        catch(Exception e) { e.printStackTrace(); return null; }
-        finally {
-            if(connection!=null) { connection.disconnect(); }
-            return retBitmap;
-        }
-    }
-
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-        //return _bmp;
-        return output;
     }
 }
 

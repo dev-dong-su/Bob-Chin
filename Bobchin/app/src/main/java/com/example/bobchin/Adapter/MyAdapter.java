@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.MeetInfo;
+import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
 import com.example.bobchin.activity_chatroom;
 import com.example.bobchin.select_meeting;
@@ -41,11 +44,13 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         TextView time;
         TextView person;
         TextView age;
-        MeetInfo data;
+        MeetInfo_Serialized data;
         TextView count;
+        ImageView foodimage;
 
         MyViewHolder(View view){
             super(view);
+            foodimage=view.findViewById(R.id.foodimage);
             title = view.findViewById(R.id.meeting_title);
             address = view.findViewById(R.id.address);
             time = view.findViewById(R.id.meet_time);
@@ -78,7 +83,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        myViewHolder.data = MeetInfoArrayList.get(position);
+        Glide.with(holder.itemView.getContext())
+                .load(MeetInfoArrayList.get(position).foodimageUrl)
+                .placeholder(R.drawable.bread)
+                .into(myViewHolder.foodimage);
+        myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
         final ArrayList<String> total=new ArrayList<>();
         final ArrayList<String> read=new ArrayList<>();

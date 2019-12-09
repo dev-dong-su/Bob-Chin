@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.R;
 
 import java.io.IOException;
@@ -46,45 +47,11 @@ public class FirstAdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ad_first, container, false);
         imgAd = view.findViewById(R.id.imgAd);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    bitmap = getBitmap(title);
-                }
-                catch(Exception e){ }
-                finally{
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            imgAd.setImageBitmap(bitmap);
-                        }
-                    });
-                }
-            }
-        }).start();
+        Glide.with(getContext())
+                .load(title)
+                .into(imgAd);
 
         return view;
-    }
-
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try{
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            is = connection.getInputStream();
-            retBitmap = BitmapFactory.decodeStream(is);
-        }
-        catch(Exception e) { e.printStackTrace(); return null; }
-        finally {
-            if(connection!=null) { connection.disconnect(); }
-            return retBitmap;
-        }
     }
 
 }

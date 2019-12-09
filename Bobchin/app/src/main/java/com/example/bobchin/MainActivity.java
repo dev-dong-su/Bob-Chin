@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("내 모임").setIcon(R.drawable.ic_chat_black_24dp));
         mTabLayout.addTab(mTabLayout.newTab().setText("내 프로필").setIcon(R.drawable.ic_person_black_24dp));
         mViewPager = (ViewPager) findViewById(R.id.pager_content);
+        mViewPager.setOffscreenPageLimit(5);
         mContentPagerAdapter = new TabPagerAdapter(
                 getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(mContentPagerAdapter);

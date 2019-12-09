@@ -1,5 +1,11 @@
 package com.example.bobchin;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,17 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Application;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.widget.ImageButton;
-
 import com.example.bobchin.Adapter.AlarmAdapter;
-import com.example.bobchin.Adapter.MyAdapter;
+import com.example.bobchin.Networking.HttpGet;
+import com.example.bobchin.Networking.HttpPost;
 
 import org.json.JSONArray;
 import org.json.JSONException;

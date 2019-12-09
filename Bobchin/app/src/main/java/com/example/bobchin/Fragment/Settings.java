@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -19,16 +18,13 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bobchin.BobChin;
-import com.example.bobchin.MainActivity;
 import com.example.bobchin.R;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -71,49 +67,17 @@ public class Settings extends Fragment {
         authLevel.setText(strAuthLevel);
 
         ImageView userPhoto = v.findViewById(R.id.imageView5);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bitmap = getBitmap(userInfo.getUserPhotoURL());
-                    } catch (Exception e) {
-                    } finally {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                userPhoto.setImageBitmap(getCroppedBitmap(bitmap));
-                            }
-                        });
-                    }
-                }
-            }).start();
-
+        Glide.with(getActivity())
+                .load(userInfo.getUserPhotoURL())
+                .placeholder(R.drawable.ic_person)
+                .apply(new RequestOptions().circleCrop())
+                .into(userPhoto);
 
         Button btnSignout = v.findViewById(R.id.btnsignout);
         btnSignout.setOnClickListener((view)->{
             getActivity().finish();
         });
         return v;
-    }
-
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try{
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            is = connection.getInputStream();
-            retBitmap = BitmapFactory.decodeStream(is);
-        }
-        catch(Exception e) { e.printStackTrace(); return null; }
-        finally {
-            if(connection!=null) { connection.disconnect(); }
-            return retBitmap;
-        }
     }
 
     public Bitmap getCroppedBitmap(Bitmap bitmap) {

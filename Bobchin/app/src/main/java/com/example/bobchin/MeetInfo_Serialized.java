@@ -24,6 +24,7 @@ public class MeetInfo_Serialized implements Serializable { //아이템정보 입
         this.meetmsg=meetInfo.meetmsg;
         this.users = meetInfo.users;
         this.isUser = meetInfo.isUser;
+        this.foodimageUrl = meetInfo.foodimageUrl;
     }
 
     public MeetInfo_Serialized(String foodimageUrl, String title, String address, String time, String person, String age, String meetid, String meetmsg, String [] users, Boolean isUser){

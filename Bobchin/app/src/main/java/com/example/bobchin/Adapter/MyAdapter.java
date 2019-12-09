@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.Fragment.Meetings;
 import com.example.bobchin.MeetInfo;
@@ -82,7 +83,10 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        //myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
+        Glide.with(holder.itemView.getContext())
+                .load(MeetInfoArrayList.get(position).foodimageUrl)
+                .placeholder(R.drawable.bread)
+                .into(myViewHolder.foodimage);
         myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
         final ArrayList<String> total=new ArrayList<>();

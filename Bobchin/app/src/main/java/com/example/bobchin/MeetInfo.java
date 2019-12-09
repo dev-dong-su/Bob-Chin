@@ -16,6 +16,7 @@ public class MeetInfo { //아이템정보 입력할때 쓰는 클래스임.
     public String [] users;
     public Boolean isUser;
     public Bitmap foodimage;
+    public String foodimageUrl;
 
     public MeetInfo(MeetInfo_Serialized meetInfoSerialized){
         this.title=meetInfoSerialized.title;
@@ -27,7 +28,23 @@ public class MeetInfo { //아이템정보 입력할때 쓰는 클래스임.
         this.meetmsg=meetInfoSerialized.meetmsg;
         this.users = meetInfoSerialized.users;
         this.isUser = meetInfoSerialized.isUser;
+        this.foodimageUrl = meetInfoSerialized.foodimageUrl;
     }
+
+    public MeetInfo(String foodimageUrl,String title, String address, String time, String person, String age, String meetid,String meetmsg,String [] users, Boolean isUser){
+        this.title=title;
+        this.address = address;
+        this.time=time;
+        this.person=person;
+        this.age=age;
+        this.meetid=meetid;
+        this.meetmsg=meetmsg;
+        this.users = users;
+        this.isUser = isUser;
+        this.foodimage=foodimage;
+        this.foodimageUrl=foodimageUrl;
+    }
+
     public MeetInfo(Bitmap foodimage,String title, String address, String time, String person, String age, String meetid,String meetmsg,String [] users, Boolean isUser){
         this.title=title;
         this.address = address;

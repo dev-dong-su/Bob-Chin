@@ -1,22 +1,16 @@
 package com.example.bobchin.Fragment;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.bobchin.Adapter.MyAdapter;
 import com.example.bobchin.BobChin;
@@ -24,12 +18,6 @@ import com.example.bobchin.HttpGet;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +26,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 
@@ -102,9 +88,7 @@ public class Mymeetings extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String[] users = jsonObject.getString("users").split("\\|");
-                        //Load Image from URL
-                        //Bitmap bitmap = getBitmap(jsonObject.getString("photo"));
-                        meetInfoArrayList.add(new MeetInfo(new MeetInfo_Serialized(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail()))));
+                        meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -123,26 +107,6 @@ public class Mymeetings extends Fragment {
                 }
             }
         }).start();
-    }
-
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try{
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            is = connection.getInputStream();
-            retBitmap = BitmapFactory.decodeStream(is);
-        }
-        catch(Exception e) { e.printStackTrace(); return null; }
-        finally {
-            if(connection!=null) { connection.disconnect(); }
-            return retBitmap;
-        }
     }
 }
 

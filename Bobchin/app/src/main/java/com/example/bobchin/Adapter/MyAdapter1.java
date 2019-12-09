@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.MeetInfo_Serialized;
 import com.example.bobchin.R;
@@ -69,14 +70,16 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);
-        //myViewHolder.foodimage.setImageBitmap(MeetInfoArrayList.get(position).foodimage);
+        Glide.with(holder.itemView.getContext())
+                .load(MeetInfoArrayList.get(position).foodimageUrl)
+                .placeholder(R.drawable.bread)
+                .into(myViewHolder.foodimage);
         myViewHolder.data = new MeetInfo_Serialized(MeetInfoArrayList.get(position));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(v.getContext(),myViewHolder.data.meetid,Toast.LENGTH_LONG).show();
                         int position = holder.getAdapterPosition();
                         Intent intent = new Intent(v.getContext(), select_meeting.class);
                         intent.putExtra("class", myViewHolder.data);

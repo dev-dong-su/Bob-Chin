@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //AuthCode HTTP POST
                 HttpPost httpPost = new HttpPost();
-                String result = httpPost.execute("http://bobchin.cf/auth/rcvcode.php","authcode="+authCode,"loginprocess").get();
+                String result = httpPost.execute("http://bobchin.cf/auth/rcvcode.php","authcode="+authCode+"&devicetoken="+ FirebaseInstanceId.getInstance().getToken(),"loginprocess").get();
                 System.out.println(result);
 
                 //결과 ~~> JSON OBJECT 후 UserInfo 에 저장

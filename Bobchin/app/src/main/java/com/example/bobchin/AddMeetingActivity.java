@@ -4,17 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,14 +24,13 @@ import android.widget.Toast;
 
 import com.example.bobchin.Networking.HttpPost;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE = 100;
 
     double latitude;
     double longitude;
@@ -56,24 +49,15 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
     ImageView imageView;
 
-    Bitmap bitmap;
+    String url;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
-
-                    bitmap = BitmapFactory.decodeStream(inputStream);
-                    inputStream.close();
-
-                    imageView.setImageBitmap(bitmap);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                url = data.getStringExtra("url");
+                Log.d("AddMeetingActivity", "사진 URL : " + url);
             }
             else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
@@ -172,15 +156,13 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             duration = spinnerDuration.getSelectedItem().toString();
             maxPeople = maxPeopleEditText.getText().toString();
 
-            if ((Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0) && (bitmap != null)) {
+            if ((Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) && (longitude != 0) && (latitude != 0) && (Integer.parseInt(maxPeople) > 0) && (url != null)) {
                 BobChin bobChin = (BobChin) getApplicationContext();
                 // 서버 통신
                 try {
                     HttpPost httpPost = new HttpPost();
-                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople).get();
-                    Log.d("AddMeetingActivity", "result : " + result);
-
-                    // 이미지 전송 코드 예정
+                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople + "&photo=http://bobchin.cf/img/getimg.php?img=" + url).get();
+                    Log.d("AddMeetingActivity", "add result : " + result);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -214,14 +196,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                         .setPositiveButton("네", null)
                         .show();
             }
-            else if (bitmap == null) {
-                new AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("모임 생성 실패")
-                        .setMessage("모임 사진을 넣어주세요!")
-                        .setPositiveButton("네", null)
-                        .show();
-            }
             else {
                 new AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -232,15 +206,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             }
         }
         else if (view.getId() == R.id.button_add_picture) {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(AddMeetingActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-            }
-            else {
-                Intent imageIntent = new Intent();
-                imageIntent.setType("image/*");
-                imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+                Intent imageIntent = new Intent(getApplicationContext(), ImagePicker.class);
                 startActivityForResult(imageIntent, REQUEST_CODE);
-            }
         }
     }
 

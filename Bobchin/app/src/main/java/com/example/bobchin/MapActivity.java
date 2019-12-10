@@ -37,7 +37,12 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
 
     final LocationListener gpsLocationListener = new LocationListener() {
         @Override
-        public void onLocationChanged(Location location) { }
+        public void onLocationChanged(Location location) {
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+
+            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
+        }
 
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle) { }
@@ -67,13 +72,13 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         centerPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions( MapActivity.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 0);
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||  checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions( MapActivity.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION }, 0);
                 }
                 else {
-                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    String locationProvider = LocationManager.NETWORK_PROVIDER;
+                    Location location = locationManager.getLastKnownLocation(locationProvider);
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
 

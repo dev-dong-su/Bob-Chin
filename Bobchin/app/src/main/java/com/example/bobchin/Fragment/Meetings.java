@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,7 +50,7 @@ public class Meetings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetings, container, false);
 
-        Button makeMeetingButton = v.findViewById(R.id.button_make_meeting);
+        ImageButton makeMeetingButton = v.findViewById(R.id.button_make_meeting);
         makeMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

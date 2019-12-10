@@ -1,25 +1,21 @@
 package com.example.bobchin;
 
-import android.app.Application;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bobchin.Networking.HttpPost;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.common.api.Scope;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
+
         setContentView(R.layout.login);
 
         String serverClientId = getString(R.string.server_client_id);
@@ -83,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //AuthCode HTTP POST
                 HttpPost httpPost = new HttpPost();
-                String result = httpPost.execute("http://bobchin.cf/auth/rcvcode.php","authcode="+authCode,"loginprocess").get();
+                String result = httpPost.execute("http://bobchin.cf/auth/rcvcode.php","authcode="+authCode+"&devicetoken="+ FirebaseInstanceId.getInstance().getToken(),"loginprocess").get();
                 System.out.println(result);
 
                 //결과 ~~> JSON OBJECT 후 UserInfo 에 저장
@@ -94,8 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                 userInfo.setUserEmail(jsonObject.getString("email"));
                 userInfo.setUserName(jsonObject.getString("name"));
                 userInfo.setUserAccessToken(jsonObject.getString("accesstoken"));
+                userInfo.setUserAuthLevel(jsonObject.getString("authlevel"));
+                userInfo.setUserPhotoURL(jsonObject.getString("photo"));
+                userInfo.setUserId(jsonObject.getString("userid"));
                 userInfo.setSignedIn(true);
 
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
             } catch (ApiException e) {
                 Toast.makeText(this.getApplicationContext(), "Sign-in Failed", Toast.LENGTH_LONG).show();
             } catch (InterruptedException e) {
@@ -106,10 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(intent);
     }
 
 }

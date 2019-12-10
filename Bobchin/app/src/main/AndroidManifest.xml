@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
             android:name=".BobChin"
@@ -19,7 +20,12 @@
             android:usesCleartextTraffic="true">
         <activity android:name=".MapActivity" />
         <activity android:name=".AddMeetingActivity"
-                android:launchMode="singleTask"/>
+                android:launchMode="singleTask"
+                android:usesCleartextTraffic="true"
+                android:requestLegacyExternalStorage="true"></activity>
+        <activity android:name=".ImagePicker"></activity>
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".select_meeting" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -28,10 +34,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity_chatroom" />
 
         <meta-data
                 android:name="com.kakao.sdk.AppKey"
                 android:value="9d0d2493f115bab46769f7c71d86154e" />
+        <service
+                android:name=".Messaging.FirebaseInstanceIDService"
+                android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

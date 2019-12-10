@@ -1,5 +1,7 @@
 <?
 include_once('../auth/settings.php');
+$_meetname = $_POST['meetname'];
+$_meetmsg = $_POST['meetmsg'];
 $_agemax = $_POST['agemax'];
 $_agemin = $_POST['agemin'];
 $_location = $_POST['location'];
@@ -20,7 +22,7 @@ try{
     $name = $google_account_info->name;
     $id = $google_account_info->id;
     
-    $query = "INSERT INTO meetings VALUES('','$email','|$email|','$_agemax','$_agemin','$_location','$_starttime','$_duration','$_maxpeople','')";
+    $query = "INSERT INTO meetings VALUES('','$email','|$email|','$_meetname','$_meetmsg','$_agemax','$_agemin','$_location','$_starttime','$_duration','$_maxpeople','')";
     $result = mysqli_query($con, $query);
     
     //no response

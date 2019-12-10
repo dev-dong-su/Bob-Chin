@@ -14,7 +14,7 @@ try{
     $id = $google_account_info->id;
 
     $returnJSON=array();
-    $query = "SELECT * FROM meetings WHERE INSTR(users,'|$email|') > 0";
+    $query = "SELECT * FROM meetings WHERE INSTR(users,'$email')";
     $result = mysqli_query($con, $query);
     for($i=0;$i<mysqli_num_rows($result);$i++){
         $row=mysqli_fetch_assoc($result);

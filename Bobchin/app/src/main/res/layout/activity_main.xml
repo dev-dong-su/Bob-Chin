@@ -9,20 +9,41 @@
 
         android:gravity="center_horizontal">
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ad_layout"
+            android:layout_width="match_parent"
+            android:layout_height="152dp">
 
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager_ad"
+                android:layout_width="match_parent"
+                android:layout_height="152dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:ci_drawable="@drawable/black_radius"
+                app:ci_height="7dp"
+                app:ci_margin="4dp"
+                app:ci_width="7dp"
+                app:layout_constraintBottom_toBottomOf="@id/view_pager_ad" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager_content"
             android:layout_width="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="1"
             android:layout_height="0dp"/>
 
 
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/layout_tab"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="#f0f0f0"
-            android:layout_weight="1"
             app:tabGravity="fill"
             app:tabTextColor="#808080"
             app:tabSelectedTextColor="#ffcf00"

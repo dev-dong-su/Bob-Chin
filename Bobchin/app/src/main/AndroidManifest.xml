@@ -18,12 +18,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".MapActivity" />
-        <activity android:name=".AddMeetingActivity"
+        <activity android:name=".ShowLocationActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
+        <activity android:name=".MapActivity" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
+        <activity
+                android:name=".AddMeetingActivity"
                 android:launchMode="singleTask"
-                android:usesCleartextTraffic="true"
-                android:requestLegacyExternalStorage="true"></activity>
-        <activity android:name=".ImagePicker"></activity>
+                android:requestLegacyExternalStorage="true"
+                android:usesCleartextTraffic="true" />
+        <activity android:name=".ImagePicker" android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".AlarmActivity" />
         <activity android:name=".select_meeting" />
         <activity android:name=".MainActivity" />
@@ -39,6 +41,7 @@
         <meta-data
                 android:name="com.kakao.sdk.AppKey"
                 android:value="9d0d2493f115bab46769f7c71d86154e" />
+
         <service
                 android:name=".Messaging.FirebaseInstanceIDService"
                 android:stopWithTask="false">

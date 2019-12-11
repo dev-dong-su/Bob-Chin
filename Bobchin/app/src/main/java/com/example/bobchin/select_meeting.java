@@ -49,6 +49,7 @@ public class select_meeting extends AppCompatActivity {
         Button btnEnterChat = findViewById(R.id.enterchat);
         ImageView imgMeetPhoto = findViewById(R.id.MeetPhoto);
         Button bobchinwho = findViewById(R.id.bobchinwho);
+        Button btnShowRegion = findViewById(R.id.btnShowRegion);
 
         Intent intent = getIntent();
         MeetInfo_Serialized meetInfo = (MeetInfo_Serialized) intent.getSerializableExtra("class");
@@ -56,7 +57,7 @@ public class select_meeting extends AppCompatActivity {
 
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
-        address.setText(meetInfo.address);
+        address.setText(meetInfo.region);
         time.setText(meetInfo.time);
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
@@ -90,11 +91,28 @@ public class select_meeting extends AppCompatActivity {
         btnEnterChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                View popupView = getLayoutInflater().inflate(R.layout.activity_show_location, null);
+                mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mPopupWindow.setFocusable(true); // 외부 영역 선택히 PopUp 종료
+                mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);*/
+
                 Intent intent=new Intent(getApplicationContext(),activity_chatroom.class);
                 intent.putExtra("title",meetInfo.title);
                 intent.putExtra("meetid",meetInfo.meetid);
 
                 startActivity(intent);
+            }
+        });
+
+        btnShowRegion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_map = new Intent(getApplicationContext(), ShowLocationActivity.class);
+
+                intent_map.putExtra("x",Double.parseDouble(meetInfo.address.split(", ")[0]));
+                intent_map.putExtra("y",Double.parseDouble(meetInfo.address.split(", ")[1]));
+                startActivity(intent_map);
             }
         });
 

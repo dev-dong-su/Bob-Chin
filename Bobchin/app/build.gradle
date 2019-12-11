@@ -51,8 +51,8 @@ dependencies {
     //Circle Indicator
     implementation 'me.relex:circleindicator:1.2.2'
 
-    implementation files('C:/Users/User/Bob-Chin/Bobchin/app/libs/libDaumMapAndroid.jar')
-    implementation files('C:/Users/User/Bob-Chin/Bobchin/app/libs/libsDaumMapEngineApi.jar')
+    implementation files('libs/libDaumMapAndroid.jar')
+    implementation files('libs/libsDaumMapEngineApi.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

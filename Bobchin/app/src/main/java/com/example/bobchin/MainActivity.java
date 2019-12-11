@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentPagerAdapter adapterViewPager;
 
-    public Handler globalHandler = null;
+    private static final int REQ_ADDMEET = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(adPager);
-
-        globalHandler = new Handler();
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -175,12 +174,22 @@ public class MainActivity extends AppCompatActivity {
 
     //EnterMeet 처리
     public Fragment findFragmentByPosition(int position) { return ((Fragment)mContentPagerAdapter.instantiateItem(mViewPager,position));}
+    public void RefreshMeets(){
+        mViewPager.setCurrentItem(1);
+        Meetings meetings = (Meetings) findFragmentByPosition(0);
+        meetings.setResultNull();
+        meetings.Refresh();
+        Mymeetings mymeetings = (Mymeetings) findFragmentByPosition(1);
+        mymeetings.setResultNull();
+        mymeetings.Refresh();
+    }
 
     @Override
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
+        String msg = "";
+
         if(reqCode == 1) {
-            String msg = "";
             switch (resCode) {
                 case 0:
                     msg = "밥친이 되었습니다";
@@ -193,14 +202,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             if (0 <= resCode && resCode <= 2) {
-                mViewPager.setCurrentItem(1);
-                Meetings meetings = (Meetings) findFragmentByPosition(0);
-                meetings.setResultNull();
-                meetings.Refresh();
-                Mymeetings mymeetings = (Mymeetings) findFragmentByPosition(1);
-                mymeetings.setResultNull();
-                mymeetings.Refresh();
+                RefreshMeets();
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+            else if(resCode == 3){
+                RefreshMeets();
             }
         }
         else if(reqCode == 3) {
@@ -210,6 +216,13 @@ public class MainActivity extends AppCompatActivity {
                 ((BobChin) getApplication()).getUserInfoObj().setUserPhotoURL(url);
                 Settings settings = (Settings) findFragmentByPosition(2);
                 settings.setMyProfile(url);
+            }
+        }
+        else if(reqCode == 4){
+            if(resCode == RESULT_OK) {
+                msg="밥친찾기가 등록되었습니다!";
+                RefreshMeets();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         }
     }

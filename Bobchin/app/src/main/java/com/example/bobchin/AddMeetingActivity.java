@@ -113,7 +113,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         year= yearFormat.format(currentTime);
         month= monthFormat.format(currentTime);
         day= dayFormat.format(currentTime);
-        Log.e("datedate",year+""+month+day);
         calendarView = findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -214,15 +213,20 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 // 서버 통신
                 try {
                     HttpPost httpPost = new HttpPost();
-                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople + "&photo="+ url).get();
+                    httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople + "&photo="+ url);
                     Log.d("AddMeetingActivity", "add result : " + startTime);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                // 메인으로 돌아가는 코드
-                setResult(RESULT_OK);
-                finish();
+                        // 메인으로 돌아가는 코드
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
             }
             else if (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) {
                 new AlertDialog.Builder(this)
@@ -299,6 +303,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 .setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        setResult(RESULT_CANCELED);
                         finish();
                     }
                 })

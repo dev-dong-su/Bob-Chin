@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class MeetInfo_Serialized implements Serializable { //아이템정보 입력할때 쓰는 클래스임.
     public String title;
     public String address;
+    public String region;
     public String time;
     public String person;
     public String age;
@@ -17,6 +18,7 @@ public class MeetInfo_Serialized implements Serializable { //아이템정보 입
     public MeetInfo_Serialized(MeetInfo meetInfo){
         this.title=meetInfo.title;
         this.address = meetInfo.address;
+        this.region = meetInfo.region;
         this.time=meetInfo.time;
         this.person=meetInfo.person;
         this.age=meetInfo.age;
@@ -39,18 +41,6 @@ public class MeetInfo_Serialized implements Serializable { //아이템정보 입
         this.isUser = isUser;
         this.foodimageUrl=foodimageUrl;
 
-    }
-
-    public MeetInfo_Serialized(String foodimageUrl, String title, String address, String time, String person, String age, String meetid, String meetmsg, String [] users){
-        this.title=title;
-        this.address = address;
-        this.time=time;
-        this.foodimageUrl=foodimageUrl;
-        this.person=person;
-        this.age=age;
-        this.meetid=meetid;
-        this.meetmsg=meetmsg;
-        this.users = users;
     }
 }
 

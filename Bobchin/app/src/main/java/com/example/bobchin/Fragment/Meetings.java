@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +39,8 @@ import java.util.concurrent.ExecutionException;
 
 public class Meetings extends Fragment {
 
+    private static final int REQ_ADDMEET = 99;
+
     public Meetings() {
         // Required empty public constructor
     }
@@ -45,6 +50,14 @@ public class Meetings extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
     public MyAdapter1 myAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    Switch switchHidePassed;
+    Switch switchTodayOnly;
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,10 +68,25 @@ public class Meetings extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddMeetingActivity.class);
-                startActivity(intent);
+                getActivity().startActivityForResult(intent,4);
             }
         });
-
+        switchHidePassed = v.findViewById(R.id.switch_hide_passed);
+        switchTodayOnly = v.findViewById(R.id.switch_today_only);
+        switchHidePassed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultNull();
+                Refresh();
+            }
+        });
+        switchTodayOnly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultNull();
+                Refresh();
+            }
+        });
         mRecyclerView = v.findViewById(R.id.recycler_view1);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -93,16 +121,18 @@ public class Meetings extends Fragment {
                 public void run() {
                     try {
                         HttpGet httpGet = new HttpGet();
-
+                        String reqURL = "http://bobchin.cf/api/getbbs.php?token=" + userInfo.getUserAccessToken();
+                        if(switchHidePassed.isChecked()) reqURL += "&hidepassed";
+                        if(switchTodayOnly.isChecked()) reqURL+= "&day=today";
                         meetInfoArrayList.clear();
                         if (result.isEmpty()) {
-                            result = httpGet.execute("http://bobchin.cf/api/getbbs.php?token=" + userInfo.getUserAccessToken()).get();
+                            result = httpGet.execute(reqURL).get();
                         }
                         JSONArray jsonArray = new JSONArray(result);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String[] users = jsonObject.getString("users").split("\\|");
-                            meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                            meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("region"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
 
                         }
                     } catch (InterruptedException e) {

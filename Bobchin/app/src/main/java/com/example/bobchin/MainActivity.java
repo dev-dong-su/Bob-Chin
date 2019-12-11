@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int reqCode, int resCode, Intent data){
         super.onActivityResult(reqCode,resCode,data);
         String msg = "";
+
         if(reqCode == 1) {
             switch (resCode) {
                 case 0:
@@ -216,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 settings.setMyProfile(url);
             }
         }
-        else if(reqCode == REQ_ADDMEET){
+        else if(reqCode == 4){
             if(resCode == RESULT_OK) {
                 msg="밥친찾기가 등록되었습니다!";
                 RefreshMeets();

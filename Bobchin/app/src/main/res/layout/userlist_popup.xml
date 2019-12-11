@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:orientation="vertical"
+            android:background="@drawable/user_list">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/user_list_title"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="밥친 목록"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp" />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/bobchinList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

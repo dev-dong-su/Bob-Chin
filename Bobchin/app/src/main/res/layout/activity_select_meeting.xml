@@ -9,7 +9,8 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:id="@+id/scrollView">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,7 +91,7 @@
 
                     <TextView
                             android:id="@+id/time"
-                            android:layout_width="wrap_content"
+                            android:layout_width="149dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="time"
@@ -104,11 +105,18 @@
 
                     <TextView
                             android:id="@+id/person"
-                            android:layout_width="wrap_content"
+                            android:layout_width="18dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="person"
                             android:textSize="20sp" />
+
+                    <Button
+                            android:id="@+id/bobchinwho"
+                            android:layout_width="10dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="밥친" />
 
                 </LinearLayout>
 

@@ -55,11 +55,11 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == 0) {
                 url = data.getStringExtra("url");
                 Log.d("AddMeetingActivity", "사진 URL : " + url);
             }
-            else if (resultCode == RESULT_CANCELED) {
+            else if (resultCode == 999) {
                 Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }

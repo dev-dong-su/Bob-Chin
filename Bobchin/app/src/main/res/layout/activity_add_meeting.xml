@@ -50,7 +50,8 @@
         <Spinner
                 android:id="@+id/spinner_form_age"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#FFF" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +63,8 @@
         <Spinner
                 android:id="@+id/spinner_to_age"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#FFF" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +122,8 @@
         <Spinner
                 android:id="@+id/spinner_time_hour"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#FFF" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -131,7 +134,8 @@
         <Spinner
                 android:id="@+id/spinner_time_minute"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#FFF" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -155,7 +159,8 @@
         <Spinner
                 android:id="@+id/spinner_duration"
                 android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="#FFF" />
 
         <TextView
                 android:layout_width="wrap_content"

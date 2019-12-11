@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     msg = "이미 밥친입니다";
                     break;
             }
-            if (0 <= resCode && resCode <= 3) {
+            if (0 <= resCode && resCode <= 2) {
                 mViewPager.setCurrentItem(1);
                 Meetings meetings = (Meetings) findFragmentByPosition(0);
                 meetings.setResultNull();

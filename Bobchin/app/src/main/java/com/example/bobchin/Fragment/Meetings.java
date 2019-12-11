@@ -1,11 +1,14 @@
 package com.example.bobchin.Fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bobchin.Adapter.MyAdapter1;
+import com.example.bobchin.AddMeetingActivity;
 import com.example.bobchin.BobChin;
 import com.example.bobchin.MeetInfo;
 import com.example.bobchin.MeetInfo_Serialized;
@@ -46,6 +50,14 @@ public class Meetings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meetings, container, false);
 
+        ImageButton makeMeetingButton = v.findViewById(R.id.button_make_meeting);
+        makeMeetingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddMeetingActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mRecyclerView = v.findViewById(R.id.recycler_view1);
         mRecyclerView.setHasFixedSize(true);
@@ -114,4 +126,3 @@ public class Meetings extends Fragment {
     }
 
 }
-

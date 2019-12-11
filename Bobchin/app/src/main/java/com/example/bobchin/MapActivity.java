@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -143,11 +144,12 @@ public class MapActivity extends AppCompatActivity implements MapView.MapViewEve
         if(marker == null) {
             Toast.makeText(this, "마커를 만들어 주세요!", Toast.LENGTH_SHORT).show();
         }
-        else {
+        else{
             Intent intent = new Intent(getApplicationContext(), AddMeetingActivity.class);
             intent.putExtra("Latitude", latitude);
             intent.putExtra("Longitude", longitude);
-            startActivity(intent);
+            //startActivity(intent);
+            setResult(RESULT_OK,intent);
             finish();
         }
     }

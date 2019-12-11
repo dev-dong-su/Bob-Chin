@@ -43,10 +43,10 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
 
+        String channel = "BobChin";
+        String channel_nm = "BobChinChannel";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            String channel = "BobChin";
-            String channel_nm = "BobChinChannel";
 
             NotificationManager notichannel = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel channelMessage = new NotificationChannel(channel, channel_nm,
@@ -74,7 +74,7 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
 
         } else {
             NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this, "")
+                    new NotificationCompat.Builder(this, channel)
                             .setSmallIcon(R.drawable.logo)
                             .setContentTitle(title)
                             .setContentText(message)

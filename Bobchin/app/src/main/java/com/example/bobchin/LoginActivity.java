@@ -1,5 +1,7 @@
 package com.example.bobchin;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener((view)->{
             onClick(view);
         });
+
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancelAll();
     }
 
     public void onClick(View v){

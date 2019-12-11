@@ -161,7 +161,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 // 서버 통신
                 try {
                     HttpPost httpPost = new HttpPost();
-                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople + "&photo=http://bobchin.cf/img/getimg.php?img=" + url).get();
+                    String result = httpPost.execute("http://bobchin.cf/api/addmeet.php", "token=" + bobChin.getUserInfoObj().getUserAccessToken() + "&meetname=" + title + "&meetmsg=" + content + "&agemax=" + ageMax + "&agemin=" + ageMin + "&location=" + location + "&starttime=" + startTime + "&duration=" + duration + "&maxpeople=" + maxPeople + "&photo="+ url).get();
                     Log.d("AddMeetingActivity", "add result : " + result);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -172,7 +172,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 finish();
             }
-            else if (Integer.parseInt(ageMax) > Integer.parseInt(ageMin)) {
+            else if (Integer.parseInt(ageMax) < Integer.parseInt(ageMin)) {
                 new AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("모임 생성 실패")

@@ -32,7 +32,10 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 
@@ -95,7 +98,17 @@ public class Mymeetings extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String[] users = jsonObject.getString("users").split("\\|");
-                        meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"),jsonObject.getString("region"), jsonObject.getString("starttime") + ", " + jsonObject.getString("duration"), (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
+                        String from = jsonObject.getString("starttime");
+                        java.sql.Timestamp t = java.sql.Timestamp.valueOf(from);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis(t.getTime());
+                        cal.add(Calendar.MINUTE, Integer.parseInt(jsonObject.getString("duration")));
+                        Date s = cal.getTime();
+                        SimpleDateFormat format = new SimpleDateFormat("MM월 dd일 HH:mm");
+                        SimpleDateFormat format1=new SimpleDateFormat("HH:mm");
+                        String start = format.format(t);
+                        String end = format1.format(s);
+                        meetInfoArrayList.add(new MeetInfo(jsonObject.getString("photo"), jsonObject.getString("meetname"), jsonObject.getString("location"), start + "~" + end, (users.length - 1) + "/" + jsonObject.getString("maxpeople"), "#" + jsonObject.getString("agemin") + "~" + jsonObject.getString("agemax") + "세만", jsonObject.getString("meetID"), jsonObject.getString("meetmsg"), users, jsonObject.getString("users").contains(userInfo.getUserEmail())));
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

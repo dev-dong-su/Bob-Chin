@@ -58,7 +58,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
                         android:orientation="horizontal">
 
                     <ImageView
@@ -87,7 +87,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginBottom="15dp"
                         android:orientation="horizontal">
 
                     <ImageView
@@ -104,16 +104,24 @@
                             android:text="time"
                             android:textSize="20sp" />
 
-                    <ImageView
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp">
+                <ImageView
                             android:id="@+id/imageView7"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            app:srcCompat="@drawable/ic_person" />
+                            app:srcCompat="@drawable/ic_person"
+                        android:layout_gravity="center"/>
 
                     <TextView
                             android:id="@+id/person"
                             android:layout_width="18dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="person"
                             android:textSize="20sp" />
@@ -126,6 +134,7 @@
                             android:text="밥친" />
 
                 </LinearLayout>
+
 
                 <TextView
                         android:id="@+id/meetmsg"

@@ -55,7 +55,7 @@ public class ShowLocationActivity extends Activity {
         Double y = getIntent().getDoubleExtra("y",0.0);
 
         ClipboardManager clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("Bobchin", x+","+y);
+        ClipData clipData = ClipData.newPlainText("Bobchin", y+","+x);
         clipboardManager.setPrimaryClip(clipData);
         Toast.makeText(getApplicationContext(),"클립보드에 위치가 복사되었습니다!\n지도 앱에서 붙여넣기 하세요!",Toast.LENGTH_LONG).show();
 

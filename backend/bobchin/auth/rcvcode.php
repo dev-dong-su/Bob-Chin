@@ -14,13 +14,10 @@ if (isset($_POST['authcode'])) {
     $id = $google_account_info->id;
     $picture = $google_account_info->picture;
 
-    $query = "SELECT count(*) as cnt FROM user WHERE email='$email'";
-    $result = mysqli_query($con, $query);
-    $cnt = mysqli_fetch_assoc($result)['cnt'];
-
     $query = "SELECT * FROM user WHERE email='$email'";
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($result);
+    $cnt = mysqli_num_rows($result);
 
     $returnJSON = array();
     if($cnt > 0){
@@ -28,10 +25,12 @@ if (isset($_POST['authcode'])) {
       	$returnJSON['email']=$email;
         $returnJSON['name']=$name;
         $returnJSON['authlevel']=$row['auth_level'];
-        $returnJSON['photo']=$picture;
+        $returnJSON['photo']=$row['photo'];
         $returnJSON['accesstoken']=$token['access_token'];
         $returnJSON['userid']=$id;
-		$query = "UPDATE user SET userid = '$id', devicetoken = '$_devicetoken', accesstoken='$token[access_token]',name='$name',photo=\"$picture\",last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
+        $returnJSON['age']=$row['age'];
+        $returnJSON['gender']=$row['gender'];
+		$query = "UPDATE user SET devicetoken = '$_devicetoken', accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
     else{
@@ -42,7 +41,9 @@ if (isset($_POST['authcode'])) {
         $returnJSON['photo']=$picture;
         $returnJSON['accesstoken']=$token['access_token'];
         $returnJSON['userid']=$id;
-		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','','1','$_devicetoken','$token[access_token]','$_datetime')";
+        $returnJSON['age']=$row['age'];
+        $returnJSON['gender']=$row['gender'];
+		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','','','1','$_devicetoken','$token[access_token]','$_datetime')";
     	mysqli_query($con, $query);
 	}
 	echo json_encode($returnJSON);

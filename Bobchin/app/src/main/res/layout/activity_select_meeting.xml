@@ -111,12 +111,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="30dp">
-                <ImageView
+                    <ImageView
                             android:id="@+id/imageView7"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             app:srcCompat="@drawable/ic_person"
-                        android:layout_gravity="center"/>
+                            android:layout_gravity="center"/>
 
                     <TextView
                             android:id="@+id/person"

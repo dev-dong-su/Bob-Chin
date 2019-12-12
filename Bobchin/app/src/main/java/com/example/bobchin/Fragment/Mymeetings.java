@@ -4,6 +4,7 @@ package com.example.bobchin.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 
 
 import com.example.bobchin.Adapter.MyAdapter;
@@ -50,10 +52,29 @@ public class Mymeetings extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
     public MyAdapter myAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    Switch switchHidePassed;
+    Switch switchTodayOnly;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mymeetings, container, false);
+
+        switchHidePassed = v.findViewById(R.id.switch_my_hide_passed);
+        switchTodayOnly = v.findViewById(R.id.switch_my_today_only);
+        switchHidePassed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultNull();
+                Refresh();
+            }
+        });
+        switchTodayOnly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultNull();
+                Refresh();
+            }
+        });
         mRecyclerView = v.findViewById(R.id.recycler_view2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -91,8 +112,12 @@ public class Mymeetings extends Fragment {
                     HttpGet httpGet = new HttpGet();
 
                     meetInfoArrayList.clear();
+                    String reqURL = "http://bobchin.cf/api/getmybbs.php?token=" + userInfo.getUserAccessToken();
+                    if(switchHidePassed.isChecked()) reqURL += "&hidepassed";
+                    if(switchTodayOnly.isChecked()) reqURL+= "&day=today";
+                    meetInfoArrayList.clear();
                     if (result.isEmpty()) {
-                        result = httpGet.execute("http://bobchin.cf/api/getmybbs.php?token=" + userInfo.getUserAccessToken()).get();
+                        result = httpGet.execute(reqURL).get();
                     }
                     JSONArray jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {

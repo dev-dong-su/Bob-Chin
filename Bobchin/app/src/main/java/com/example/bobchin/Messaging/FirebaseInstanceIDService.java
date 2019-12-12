@@ -43,10 +43,10 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("message");
 
+        String channel = "BobChin";
+        String channel_nm = "BobChinChannel";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            String channel = "BobChin";
-            String channel_nm = "BobChinChannel";
 
             NotificationManager notichannel = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationChannel channelMessage = new NotificationChannel(channel, channel_nm,
@@ -54,13 +54,13 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
             channelMessage.setDescription(channel_nm);
             channelMessage.enableLights(true);
             channelMessage.enableVibration(true);
-            channelMessage.setShowBadge(false);
+            channelMessage.setShowBadge(true);
             channelMessage.setVibrationPattern(new long[]{100, 200, 100, 200});
             notichannel.createNotificationChannel(channelMessage);
 
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this, channel)
-                            .setSmallIcon(R.drawable.ic_launcher_background)
+                            .setSmallIcon(R.drawable.logo)
                             .setContentTitle(title)
                             .setContentText(message)
                             .setChannelId(channel)
@@ -74,8 +74,8 @@ public class FirebaseInstanceIDService extends FirebaseMessagingService {
 
         } else {
             NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this, "")
-                            .setSmallIcon(R.drawable.ic_launcher_background)
+                    new NotificationCompat.Builder(this, channel)
+                            .setSmallIcon(R.drawable.logo)
                             .setContentTitle(title)
                             .setContentText(message)
                             .setAutoCancel(true)

@@ -66,7 +66,7 @@ public class MyAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         myViewHolder.title.setText(MeetInfoArrayList.get(position).title);
-        myViewHolder.address.setText(MeetInfoArrayList.get(position).address);
+        myViewHolder.address.setText(MeetInfoArrayList.get(position).region);
         myViewHolder.time.setText(MeetInfoArrayList.get(position).time);
         myViewHolder.person.setText(MeetInfoArrayList.get(position).person);
         myViewHolder.age.setText(MeetInfoArrayList.get(position).age);

@@ -4,22 +4,34 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bobchin.Networking.HttpPost;
 
+import org.w3c.dom.Text;
+
 import java.util.concurrent.ExecutionException;
 
 public class select_meeting extends AppCompatActivity {
+    private PopupWindow mPopupWindow;
 
     String result;
     String msg = "";
@@ -36,6 +48,8 @@ public class select_meeting extends AppCompatActivity {
         Button btnEnterMeet = findViewById(R.id.entermeet);
         Button btnEnterChat = findViewById(R.id.enterchat);
         ImageView imgMeetPhoto = findViewById(R.id.MeetPhoto);
+        Button bobchinwho = findViewById(R.id.bobchinwho);
+        Button btnShowRegion = findViewById(R.id.btnShowRegion);
 
         Intent intent = getIntent();
         MeetInfo_Serialized meetInfo = (MeetInfo_Serialized) intent.getSerializableExtra("class");
@@ -43,7 +57,7 @@ public class select_meeting extends AppCompatActivity {
 
         title.setText(meetInfo.title);
         tags.setText(meetInfo.age);
-        address.setText(meetInfo.address);
+        address.setText(meetInfo.region);
         time.setText(meetInfo.time);
         person.setText(meetInfo.person);
         meetmsg.setText(meetInfo.meetmsg);
@@ -56,14 +70,49 @@ public class select_meeting extends AppCompatActivity {
             btnEnterChat.setVisibility(View.VISIBLE);
         }
 
+        bobchinwho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                View popupView = getLayoutInflater().inflate(R.layout.userlist_popup, null);
+                mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                //popupView 에서 (LinearLayout 을 사용) 레이아웃이 둘러싸고 있는 컨텐츠의 크기 만큼 팝업 크기를 지정
+                mPopupWindow.setFocusable(true); // 외부 영역 선택히 PopUp 종료
+                mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                TextView bobchinListText = popupView.findViewById(R.id.bobchinList);
+                String bobChinList = "";
+                dimBehind(mPopupWindow);
+                for(int x = 1; x <= meetInfo.users.length - 1; x++){
+                    bobChinList += meetInfo.users[x] + "\n";
+                }
+               bobchinListText.setText(bobChinList);
+            }
+        });
+
         btnEnterChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                View popupView = getLayoutInflater().inflate(R.layout.activity_show_location, null);
+                mPopupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mPopupWindow.setFocusable(true); // 외부 영역 선택히 PopUp 종료
+                mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);*/
+
                 Intent intent=new Intent(getApplicationContext(),activity_chatroom.class);
                 intent.putExtra("title",meetInfo.title);
                 intent.putExtra("meetid",meetInfo.meetid);
 
                 startActivity(intent);
+            }
+        });
+
+        btnShowRegion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_map = new Intent(getApplicationContext(), ShowLocationActivity.class);
+
+                intent_map.putExtra("x",Double.parseDouble(meetInfo.address.split(", ")[0]));
+                intent_map.putExtra("y",Double.parseDouble(meetInfo.address.split(", ")[1]));
+                startActivity(intent_map);
             }
         });
 
@@ -125,7 +174,19 @@ public class select_meeting extends AppCompatActivity {
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(actionbar,params);
 
+        ImageButton alarmButton = findViewById(R.id.button_alarm);
+        alarmButton.setVisibility(View.GONE);
         return true;
+    }
+
+    public static void dimBehind(PopupWindow popupWindow) {
+        View container = popupWindow.getContentView().getRootView();
+        Context context = popupWindow.getContentView().getContext();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.3f;
+        wm.updateViewLayout(container, p);
     }
 
     @Override

@@ -6,16 +6,39 @@
         android:layout_height="match_parent"
         tools:context=".Fragment.Mymeetings"
         android:background="#FFFFFF">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Switch
+                android:id="@+id/switch_my_hide_passed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="지난모임 숨김" />
+
+        <Switch
+                android:id="@+id/switch_my_today_only"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="오늘만" />
+    </LinearLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    />
+            android:layout_marginTop="30dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

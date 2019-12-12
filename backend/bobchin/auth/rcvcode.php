@@ -21,6 +21,7 @@ if (isset($_POST['authcode'])) {
 
     $returnJSON = array();
     if($cnt > 0){
+        if($row['user_level']=="0") exit;
       	$returnJSON['user']="1";
       	$returnJSON['email']=$email;
         $returnJSON['name']=$name;
@@ -28,8 +29,6 @@ if (isset($_POST['authcode'])) {
         $returnJSON['photo']=$row['photo'];
         $returnJSON['accesstoken']=$token['access_token'];
         $returnJSON['userid']=$id;
-        $returnJSON['age']=$row['age'];
-        $returnJSON['gender']=$row['gender'];
 		$query = "UPDATE user SET devicetoken = '$_devicetoken', accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
@@ -41,9 +40,7 @@ if (isset($_POST['authcode'])) {
         $returnJSON['photo']=$picture;
         $returnJSON['accesstoken']=$token['access_token'];
         $returnJSON['userid']=$id;
-        $returnJSON['age']=$row['age'];
-        $returnJSON['gender']=$row['gender'];
-		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','','','1','$_devicetoken','$token[access_token]','$_datetime')";
+		$query = "INSERT INTO user VALUES('$id','$token[access_token]','$token[refresh_token]','$name','$email','$picture','1','$_devicetoken','$token[access_token]','$_datetime')";
     	mysqli_query($con, $query);
 	}
 	echo json_encode($returnJSON);

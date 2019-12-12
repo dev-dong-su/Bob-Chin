@@ -44,6 +44,14 @@ else if(isset($_POST['token'])){
     if($datetime->getTimeStamp()-$last_renew->getTimeStamp()>=3500) $expired=true;
 }
 
+if(isset($_GET['token']) || isset($_POST['token'])){
+    if(!$last_accesstoken) {echo "Unauthorized"; exit;}
+        $client->setAccessToken($last_accesstoken);
+    if($expired) {
+        $_token = $last_accesstoken = RefreshToken($con, $client, $refreshtoken);
+    }
+}
+
 function RefreshToken($con, $client, $refreshtoken){
     $new_access_token = $client->fetchAccessTokenWithRefreshToken($refreshtoken)['access_token'];
     $client->setAccessToken($new_access_token);

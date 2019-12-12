@@ -16,11 +16,12 @@ try{
     $id = $google_account_info->id;
 
     $query= "SELECT users FROM meetings WHERE meetID='$_meetid'";
-    $result = mysqli_query($con,$query);
-    $users = mysqli_fetch_assoc($result)['users'];
-    $users = explode("|",$users);
-    for($i=1;$i<count($users);$i++){
-        $query = "INSERT INTO pushmsg VALUES('','밥친 알림','새 채팅이 도착했습니다!',$users[$i],$_meetid,$con)";
+    $result = mysqli_query($con,$query); 
+    $row = mysqli_fetch_row($result);
+    $users = explode('|',(string)$row[0]);
+    for($i=1;$i<count($users)-1;$i++){
+        if ($users[$i] == $email) continue;
+        PostMessage('밥친 알림', '새 채팅이 도착했습니다!', $users[$i], $_meetid, $con);
     }
 }
 catch(Exception $e){

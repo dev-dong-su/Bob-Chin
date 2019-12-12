@@ -1,6 +1,8 @@
 <?
 include_once('../auth/settings.php');
-if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
+
+$_url = $_POST['url'];
+if(!$last_accesstoken) {echo "Unauthorized"; exit;}
 $client->setAccessToken($last_accesstoken);
 if($expired) {
     $_token = $last_accesstoken = RefreshToken($con, $client, $refreshtoken);
@@ -13,17 +15,11 @@ try{
     $name = $google_account_info->name;
     $id = $google_account_info->id;
 
-    $query = "SELECT * FROM pushmsg WHERE touser='$email' ORDER BY datetime ASC";
-    $result = mysqli_query($con, $query);
-
-    for($i=0;$i<mysqli_num_rows($result);$i++){
-        $row=mysqli_fetch_assoc($result);
-        $returnJSON[$i]=$row;
-    }
-    echo json_encode($returnJSON);
+    mysqli_query($con, "UPDATE user SET photo='$_url' WHERE email='$email'");
 }
 catch(Exception $e){
     echo "Unauthorized";
     exit;
 }
+
 ?>

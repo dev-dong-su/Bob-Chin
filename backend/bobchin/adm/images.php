@@ -44,6 +44,31 @@ include("auth/rcvcode.php");
             </ul>
         </div>
         <div class="content col-10">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">이미지 추가</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addimage" action="../img/uploadimg.php?for=imageonly" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="imagefile" class="col-form-label">이미지</label>
+                                    <input type="file" class="form-control" id="imagefile" name="imagefile">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="$('#addimage').submit();">추가</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus-circle text-white"></i></a>
+            
             <table class="table">
                 <thead>
                     <tr>
@@ -56,7 +81,7 @@ include("auth/rcvcode.php");
                 </thead>
                 <tbody>
                     <?
-                      $query="SELECT * FROM images";
+                      $query="SELECT * FROM images ORDER BY datetime DESC";
                       $result = mysqli_query($con,$query);
                       while($row=mysqli_fetch_assoc($result)){
                     ?>

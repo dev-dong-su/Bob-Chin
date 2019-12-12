@@ -80,7 +80,7 @@ include("auth/rcvcode.php");
                 </thead>
                 <tbody>
                     <?
-                      $query="SELECT * FROM notice";
+                      $query="SELECT * FROM notice ORDER BY datetime DESC";
                       $result = mysqli_query($con,$query);
                       while($row=mysqli_fetch_assoc($result)){
                     ?>

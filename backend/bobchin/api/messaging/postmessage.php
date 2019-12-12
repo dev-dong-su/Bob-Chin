@@ -1,4 +1,6 @@
 <?
+// include "../../auth/dbconnect.php";
+// PostMessage("test","test","gorae02@gmail.com","17",$con);
 
 function PostMessage($title,$body,$ToUser,$meetid,$dbcon){
     $_datetime = date("Y-m-d H:i:s", time());
@@ -16,23 +18,62 @@ function PostMessage($title,$body,$ToUser,$meetid,$dbcon){
     $Notifyjson['data']=['title'=>$title, 'message'=>$body];
     $Notifyjson = json_encode($Notifyjson);
 
-    $ServerKey= "key=AAAAQOzQGT4:APA91bEwYz1D-L4cTBWkIo70ISJXCqacMuxWApULxpWWWTqb72CbtbgZ3sSsGWhuuEYbCZwOKh36ioRG-_ILC70-fQyvVacj26LE_aUR8WAUF3CZZa7Y0aD3Q30L-tj-uuB9iteta9Wb";
-    $CURL_HEADER=array('Accept: application/json', 'Content-Type: application/json','Authorization: '.$ServerKey);
+    //$ServerKey= "key=AAAAQOzQGT4:APA91bEwYz1D-L4cTBWkIo70ISJXCqacMuxWApULxpWWWTqb72CbtbgZ3sSsGWhuuEYbCZwOKh36ioRG-_ILC70-fQyvVacj26LE_aUR8WAUF3CZZa7Y0aD3Q30L-tj-uuB9iteta9Wb";
+    //$CURL_HEADER=array('Accept: application/json', 'Content-Type: application/json','Authorization: '.$ServerKey);
     
+    curl_request_async("https://fcm.googleapis.com/fcm/send",$Notifyjson);
+    /*
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL,"https://fcm.googleapis.com/fcm/send");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);    //요청 결과를 문자열로 반환 
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과 리턴
     curl_setopt($ch, CURLOPT_HTTPHEADER, $CURL_HEADER);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초 
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
     curl_setopt($ch, CURLOPT_POSTFIELDS, $Notifyjson);       //POST data
-    curl_setopt($ch, CURLOPT_WRITEFUNCTION, 'do_nothing');
-    curl_setopt($ch, CURLOPT_POST, true);  
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_exec($ch);
     curl_close($ch);
+    $mh = curl_multi_init();
+    curl_multi_add_handle($mh,$ch);
+    $running = 'idc';
+    curl_multi_exec($mh,$running);*/
 }
 
 function do_nothing($curl, $input) {
     return 0;
 }
+
+function curl_for_map($long,$lat){
+    $ServerKey = "8c28b1af89ae1c8cd422aedb8699f181";
+    $CURL_HEADER=array('Accept: application/json', 'Content-Type: application/json','Authorization: KakaoAK '.$ServerKey);
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,"https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=$long&y=$lat");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과 리턴
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $CURL_HEADER);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return $response;
+}
+
+function curl_request_async($url, $post_string)  
+{  
+    $parts=parse_url($url);  
+    $fp = fsockopen("ssl://" . $parts['host'], 443, $errno, $errstr, 30);  
+    
+    $ServerKey= "key=AAAAQOzQGT4:APA91bEwYz1D-L4cTBWkIo70ISJXCqacMuxWApULxpWWWTqb72CbtbgZ3sSsGWhuuEYbCZwOKh36ioRG-_ILC70-fQyvVacj26LE_aUR8WAUF3CZZa7Y0aD3Q30L-tj-uuB9iteta9Wb";
+
+    $out = "POST ".$parts['path']." HTTP/1.1\r\n";  
+    $out.= "Host: ".$parts['host']."\r\n";
+    $out.= "Authorization: ".$ServerKey."\r\n";
+    $out.= "Content-Type: application/json\r\n";  
+    $out.= "Content-Length: ".strlen($post_string)."\r\n";  
+    $out.= "Connection: Close\r\n\r\n";  
+    $out.= $post_string;  
+  
+    fwrite($fp, $out);
+    fclose($fp);  
+}  
 ?>

@@ -20,7 +20,7 @@ try{
     $row = mysqli_fetch_assoc($result);
     if($row['headuser'] == $email){
         $users=explode("|",$row['users']);
-        for($i=2;$i<count($users);$i++)
+        for($i=2;$i<count($users)-1;$i++)
             PostMessage('밥친 알림','밥짱이 '.$row['meetname'].' 모임을 취소했습니다.',$users[$i],$row['meetid'],$con);
         $query = "DELETE FROM meetings WHERE meetID='$_meetid'";
         $result = mysqli_query($con, $query);

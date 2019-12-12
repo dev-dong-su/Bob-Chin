@@ -78,10 +78,9 @@
 
                     <Button
                             android:id="@+id/btnShowRegion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="위치" />
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_info3" />
 
                 </LinearLayout>
 
@@ -129,10 +128,9 @@
 
                     <Button
                             android:id="@+id/bobchinwho"
-                            android:layout_width="10dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="밥친" />
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_info3" />
 
                 </LinearLayout>
 

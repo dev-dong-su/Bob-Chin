@@ -58,7 +58,11 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+<<<<<<< Updated upstream
                         android:gravity="center_horizontal"
+=======
+                        android:gravity="left"
+>>>>>>> Stashed changes
                         android:orientation="horizontal">
 
                     <ImageView
@@ -71,16 +75,14 @@
                             android:id="@+id/address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="5"
                             android:text="address"
                             android:textSize="20sp" />
 
                     <Button
                             android:id="@+id/btnShowRegion"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="위치" />
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_info3" />
 
                 </LinearLayout>
 
@@ -120,10 +122,9 @@
 
                     <Button
                             android:id="@+id/bobchinwho"
-                            android:layout_width="10dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="밥친" />
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/ic_info3" />
 
                 </LinearLayout>
 

@@ -2,11 +2,6 @@
 include_once('../auth/settings.php');
 
 $_meetid = $_POST['meetid'];
-if(!$last_accesstoken) {echo "Unauthorized"; exit;}
-$client->setAccessToken($last_accesstoken);
-if($expired) {
-    $_token = $last_accesstoken = RefreshToken($con, $client, $refreshtoken);
-}
 
 $google_oauth = new Google_Service_Oauth2($client);
 try{
@@ -19,17 +14,11 @@ try{
     $result = mysqli_query($con, $query);
     $row = mysqli_fetch_array($result);
 
-    $query = "SELECT age,gender FROM user WHERE email='$email'";
-    $result = mysqli_query($con, $query);
-    $myrow = mysqli_fetch_array($result);
-
     $headuser= $row['headuser'];
     $users = $row['users'];
     $maxpeople = $row['maxpeople'];
     $usercnt = substr_count($users,'|')-1;
     $is_existinguser = substr_count($users, $email);
-    $myage=$myrow['age'];
-    $mygender=$myrow['gender'];
 
     if( !($usercnt < $maxpeople) ){
         echo 1; exit;
@@ -37,11 +26,6 @@ try{
     if($is_existinguser){
         echo 2; exit;
     }
-    /*
-    if($row['agemin'] > $myage || $myage > $row['agemax']){
-        echo 3; exit;
-    }*/
-    //else
     {
         PostMessage('밥친 알림','새로운 밥친 '.$name.'이 참가했습니다!',$headuser,$_meetid,$con);
         $users = $users."$email|";

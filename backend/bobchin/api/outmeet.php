@@ -2,12 +2,6 @@
 include_once('../auth/settings.php');
 $_meetid = $_POST['meetid'];
 
-if(!isset($last_accesstoken)) {echo "Unauthorized"; exit;}
-$client->setAccessToken($last_accesstoken);
-if($expired) {
-    $_token = $last_accesstoken = RefreshToken($con, $client, $refreshtoken);
-}
-
 $google_oauth = new Google_Service_Oauth2($client);
 try{
     $google_account_info = $google_oauth->userinfo->get();

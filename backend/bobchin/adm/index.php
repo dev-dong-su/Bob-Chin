@@ -54,6 +54,7 @@ include("auth/rcvcode.php");
                         <th scope="col">메시지</th>
                         <th scope="col">연령대</th>
                         <th scope="col">위치</th>
+                        <th scope="col">지역</th>
                         <th scope="col">시간</th>
                         <th scope="col">인원</th>
                         <th scope="col">옵션</th>
@@ -73,6 +74,7 @@ include("auth/rcvcode.php");
                         <td><?=$row['meetmsg']?></td>
                         <td><?=$row['agemin']?>~<?=$row['agemax']?></td>
                         <td><?=$row['location']?></td>
+                        <td><?=$row['region']?></td>
                         <td><?=$row['starttime']?>, <?=$row['duration']?>분</td>
                         <td><?=$row['maxpeople']?></td>
                         <td>

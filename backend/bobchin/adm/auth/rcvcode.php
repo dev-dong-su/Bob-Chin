@@ -28,7 +28,7 @@ if (isset($_GET['code'])) {
     $row = mysqli_fetch_assoc($result);
 
     if($cnt > 0){
-		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',photo='$picture',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
+		$query = "UPDATE user SET userid = '$id',accesstoken='$token[access_token]',name='$name',last_accesstoken='$token[access_token]',last_renew='$_datetime' WHERE email='$email'";
     	mysqli_query($con, $query);
     }
     echo "<script>window.location='../index.php';</script>";

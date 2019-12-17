@@ -18,29 +18,7 @@ function PostMessage($title,$body,$ToUser,$meetid,$dbcon){
     $Notifyjson['data']=['title'=>$title, 'message'=>$body];
     $Notifyjson = json_encode($Notifyjson);
 
-    //$ServerKey= "key=AAAAQOzQGT4:APA91bEwYz1D-L4cTBWkIo70ISJXCqacMuxWApULxpWWWTqb72CbtbgZ3sSsGWhuuEYbCZwOKh36ioRG-_ILC70-fQyvVacj26LE_aUR8WAUF3CZZa7Y0aD3Q30L-tj-uuB9iteta9Wb";
-    //$CURL_HEADER=array('Accept: application/json', 'Content-Type: application/json','Authorization: '.$ServerKey);
-    
     curl_request_async("https://fcm.googleapis.com/fcm/send",$Notifyjson);
-    /*
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,"https://fcm.googleapis.com/fcm/send");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과 리턴
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $CURL_HEADER);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초 
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $Notifyjson);       //POST data
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_exec($ch);
-    curl_close($ch);
-    $mh = curl_multi_init();
-    curl_multi_add_handle($mh,$ch);
-    $running = 'idc';
-    curl_multi_exec($mh,$running);*/
-}
-
-function do_nothing($curl, $input) {
-    return 0;
 }
 
 function curl_for_map($long,$lat){
